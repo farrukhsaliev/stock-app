@@ -14,9 +14,6 @@ interface StockDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(stock: Stock)
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertAll(stock: List<Stock>)
-
     @Query("SELECT * FROM stocks_table")
     fun getAllLikedStocks(): Flow<List<Stock>>
 

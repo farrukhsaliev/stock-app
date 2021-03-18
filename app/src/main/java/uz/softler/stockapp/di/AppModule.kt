@@ -21,19 +21,19 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
-//            .baseUrl("https://finnhub.io/docs/api/")
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .build()
-//
-//    @Provides
-//    fun provideGson(): Gson = GsonBuilder().create()
-//
-//    @Provides
-//    fun jsonPlaceHolder(retrofit: Retrofit): JsonPlaceHolder =
-//            retrofit.create(JsonPlaceHolder::class.java)
+    @Singleton
+    @Provides
+    fun provideRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
+            .baseUrl("https://finnhub.io/api/v1/stock/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+    @Provides
+    fun provideGson(): Gson = GsonBuilder().create()
+
+    @Provides
+    fun jsonPlaceHolder(retrofit: Retrofit): JsonPlaceHolder =
+            retrofit.create(JsonPlaceHolder::class.java)
 
 //    @Singleton
 //    @Provides
@@ -57,9 +57,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRepository(
-//            remoteDataSource: JsonPlaceHolder,
+            remoteDataSource: JsonPlaceHolder,
             localDataSource: StockDao
     ) =
-            StockRepository(localDataSource)
+            StockRepository(remoteDataSource, localDataSource)
 
 }

@@ -31,5 +31,6 @@ class MainViewModel @ViewModelInject constructor(
     }
 
 //    fun getStock(ticker: String) = repository.getStock(ticker)
+    fun getStock() = repository.getStock()
 
 }

@@ -8,7 +8,7 @@ import uz.softler.stockapp.data.remote.JsonPlaceHolder
 import javax.inject.Inject
 
 class StockRepository @Inject constructor(
-//    private val remoteDataSource: JsonPlaceHolder,
+    private val remoteDataSource: JsonPlaceHolder,
     private val localDataSource: StockDao
 ) {
     suspend fun insert(stock: Stock) {
@@ -24,5 +24,6 @@ class StockRepository @Inject constructor(
     }
 
 //    fun getStock(ticker: String) = remoteDataSource.getStock(ticker)
+    fun getStock() = remoteDataSource.getStock()
 
 }

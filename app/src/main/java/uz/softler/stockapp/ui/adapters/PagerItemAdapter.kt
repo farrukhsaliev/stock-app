@@ -12,7 +12,6 @@ import uz.softler.stockapp.databinding.PagerItemListBinding
 
 class PagerItemAdapter(var onClickItem: Clickable, var context: Context): RecyclerView.Adapter<PagerItemAdapter.MyViewHolder>() {
     private var oldData = emptyList<Stock>()
-//    private var lastPosition = -1
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = PagerItemListBinding.bind(itemView)

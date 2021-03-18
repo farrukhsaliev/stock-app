@@ -62,6 +62,7 @@ class PagerItemFragment : Fragment() {
         pagerItemAdapter.setData(stocks as List<Stock>)
         binding.rvPager.adapter = pagerItemAdapter
 
+
         return view
     }
 
