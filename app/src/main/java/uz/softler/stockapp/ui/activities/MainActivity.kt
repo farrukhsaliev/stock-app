@@ -1,9 +1,10 @@
-package uz.softler.stockapp
+package uz.softler.stockapp.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
+import uz.softler.stockapp.R
 import uz.softler.stockapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
