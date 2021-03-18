@@ -19,7 +19,7 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context): Recycl
         fun onBind(stock: Stock, position: Int) {
             binding.also {
                 it.company.text = stock.companyName
-                it.tiker.text = stock.tiker
+                it.ticker.text = stock.tiker
                 it.change.text = stock.changes
                 it.logo.setImageResource(stock.logo)
                 it.price.text = stock.price
