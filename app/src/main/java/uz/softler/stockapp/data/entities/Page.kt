@@ -1,4 +1,4 @@
-package uz.softler.stockapp.db.models
+package uz.softler.stockapp.data.entities
 
 import java.io.Serializable
 

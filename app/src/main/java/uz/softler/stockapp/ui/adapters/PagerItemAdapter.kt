@@ -5,24 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import uz.softler.stockapp.R
+import uz.softler.stockapp.data.entities.Stock
 import uz.softler.stockapp.databinding.PagerItemListBinding
-import uz.softler.stockapp.db.models.Stock
 
 class PagerItemAdapter(var onClickItem: Clickable, var context: Context): RecyclerView.Adapter<PagerItemAdapter.MyViewHolder>() {
     private var oldData = emptyList<Stock>()
-    private var lastPosition = -1
+//    private var lastPosition = -1
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = PagerItemListBinding.bind(itemView)
+        private val binding = PagerItemListBinding.bind(itemView)
 
         fun onBind(stock: Stock, position: Int) {
             binding.also {
-                it.company.text = stock.companyName
-                it.tiker.text = stock.tiker
-                it.change.text = stock.changes
-                it.logo.setImageResource(stock.logo)
-                it.price.text = stock.price
+                it.company.text = stock.name
+                it.ticker.text = stock.ticker
+                it.price.text = stock.shareOutstanding.toString()
+
+                Glide
+                    .with(context)
+                    .load(stock.logo)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(it.logo)
 
                 if (position % 2 == 1) {
                     it.constraintLayout.visibility = View.INVISIBLE

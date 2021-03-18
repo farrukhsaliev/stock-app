@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
 import uz.softler.stockapp.databinding.FragmentPagerItemBinding
-import uz.softler.stockapp.db.models.Stock
+import uz.softler.stockapp.data.entities.Stock
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
 import java.io.Serializable
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+@AndroidEntryPoint
 class PagerItemFragment : Fragment() {
 
     private var title: String? = null
@@ -28,8 +30,10 @@ class PagerItemFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_pager_item, container, false)
         val binding = FragmentPagerItemBinding.bind(view)
@@ -66,11 +70,11 @@ class PagerItemFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(title: String, list: List<Stock>) =
-                PagerItemFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, title)
-                        putSerializable(ARG_PARAM2, list as Serializable)
-                    }
+            PagerItemFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, title)
+                    putSerializable(ARG_PARAM2, list as Serializable)
                 }
+            }
     }
 }

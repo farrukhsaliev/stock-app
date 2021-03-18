@@ -17,9 +17,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="16dp"
             android:layout_marginBottom="6dp"
             android:background="@drawable/shape_search"
             android:fitsSystemWindows="true"
@@ -28,11 +28,11 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:fontFamily="@font/montserrat_medium"
+                android:fontFamily="@font/montserrat_semibold"
                 android:text="Find company or ticker"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -58,30 +58,13 @@
             android:id="@+id/tablayout"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="start"
+            android:layout_gravity="center"
             android:background="@android:color/transparent"
             app:layout_scrollFlags="noScroll"
             app:tabContentStart="72dp"
             app:tabGravity="start"
             app:tabIndicatorHeight="0dp"
-            app:tabRippleColor="@null">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Monday" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tuesday" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wednesday" />
-
-        </com.google.android.material.tabs.TabLayout>
+            app:tabRippleColor="@null" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
