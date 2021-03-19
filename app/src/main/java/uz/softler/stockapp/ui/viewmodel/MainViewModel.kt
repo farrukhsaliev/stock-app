@@ -2,11 +2,13 @@ package uz.softler.stockapp.ui.viewmodel
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Response
 import uz.softler.stockapp.data.entities.Stock
 import uz.softler.stockapp.data.entities.Symbol
 import uz.softler.stockapp.data.repository.StockRepository
@@ -26,7 +28,7 @@ class MainViewModel @ViewModelInject constructor(
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun insert(stock: Stock) {
-        viewModelScope.launch(Dispatchers.IO) {
+        coroutineScope.launch(Dispatchers.IO) {
             repository.insert(stock)
         }
     }
@@ -36,7 +38,7 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     fun unlikeStock(ticker: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        coroutineScope.launch(Dispatchers.IO) {
             repository.unlikeStock(ticker)
         }
     }
@@ -78,7 +80,6 @@ class MainViewModel @ViewModelInject constructor(
                 }
             }
         }
-
     }
 
     fun initializeStocksData() {

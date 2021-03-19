@@ -60,16 +60,17 @@ class PagerItemFragment : Fragment() {
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         mainViewModel.stockLiveData.observe(viewLifecycleOwner, {
+            Log.d("observe", "observe-stock")
             pagerItemAdapter.submitList(listOf(it, it, it, it, it, it, it, it, it))
         })
 
 
         mainViewModel.symbolsLiveData.observe(viewLifecycleOwner, {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
-            Log.d("SYMBOLS", it.toString())
+            Log.d("observe", "observe-symbols")
         })
 
-        Log.d("SYMBOLS", "onCreateView: ${symbols.toString()}")
+
 
 //        Toast.makeText(activity, symbols.toString(), Toast.LENGTH_SHORT).show()
 
