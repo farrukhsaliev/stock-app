@@ -10,6 +10,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit.CallAdapter
 import retrofit.RxJavaCallAdapterFactory
 import retrofit2.Retrofit
@@ -30,6 +32,14 @@ object AppModule {
         .baseUrl("https://finnhub.io/api/v1/stock/")
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create(gson))
+        .client(setInterceptor())
+        .build()
+
+    @Provides
+    fun setInterceptor() = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            setLevel(HttpLoggingInterceptor.Level.BODY)
+        })
         .build()
 
     @Provides

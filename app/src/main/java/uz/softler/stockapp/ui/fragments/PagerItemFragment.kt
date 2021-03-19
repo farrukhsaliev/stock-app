@@ -1,17 +1,19 @@
 package uz.softler.stockapp.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
-import uz.softler.stockapp.databinding.FragmentPagerItemBinding
 import uz.softler.stockapp.data.entities.Stock
+import uz.softler.stockapp.data.entities.Symbol
+import uz.softler.stockapp.databinding.FragmentPagerItemBinding
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
 import uz.softler.stockapp.ui.viewmodel.MainViewModel
 import java.io.Serializable
@@ -24,6 +26,7 @@ class PagerItemFragment : Fragment() {
 
     private var title: String? = null
     private var stocks: List<Stock>? = null
+    private var symbols: List<Symbol>? = null
     lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +59,19 @@ class PagerItemFragment : Fragment() {
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        mainViewModel.stocksLiveData.observe(viewLifecycleOwner,  {
+        mainViewModel.stockLiveData.observe(viewLifecycleOwner, {
             pagerItemAdapter.submitList(listOf(it, it, it, it, it, it, it, it, it))
         })
 
-        Toast.makeText(activity, "Fragment", Toast.LENGTH_SHORT).show()
+
+        mainViewModel.symbolsLiveData.observe(viewLifecycleOwner, {
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+            Log.d("SYMBOLS", it.toString())
+        })
+
+        Log.d("SYMBOLS", "onCreateView: ${symbols.toString()}")
+
+//        Toast.makeText(activity, symbols.toString(), Toast.LENGTH_SHORT).show()
 
         return view
     }
