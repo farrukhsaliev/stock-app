@@ -15,7 +15,7 @@ interface StockDao {
     suspend fun insert(stock: Stock)
 
     @Query("SELECT * FROM stocks_table")
-    fun getAllLikedStocks(): Flow<List<Stock>>
+    fun getAllLikedStocks(): LiveData<List<Stock>>
 
     @Query("DELETE FROM stocks_table WHERE ticker=:ticker")
     suspend fun unlikeStock(ticker: String)

@@ -6,15 +6,14 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.Page
 import uz.softler.stockapp.data.entities.Stock
@@ -22,6 +21,9 @@ import uz.softler.stockapp.databinding.FragmentHomeBinding
 import uz.softler.stockapp.databinding.TabItemBinding
 import uz.softler.stockapp.ui.adapters.ViewPagerAdapter
 import uz.softler.stockapp.ui.viewmodel.MainViewModel
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -29,7 +31,7 @@ class HomeFragment : Fragment() {
     private val pages = ArrayList<Page>()
     private val items = ArrayList<Stock>()
     private val titles = ArrayList<String>()
-    private val mainViewModel: MainViewModel by viewModels()
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -39,42 +41,23 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val binding = FragmentHomeBinding.bind(view)
 
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        val call: Call<Stock> = mainViewModel.getStock()
-
-        call.enqueue(object : Callback<Stock> {
-            override fun onResponse(call: Call<Stock>, response: Response<Stock>) {
-                if (!response.isSuccessful) {
-                    Toast.makeText(activity, response.code(), Toast.LENGTH_SHORT).show()
-                } else {
-                    val stock: Stock = response.body()!!
-                    items.add(stock)
-
-
-//                    Toast.makeText(activity, response.body().toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<Stock>, t: Throwable) {
-                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-            }
-
+        mainViewModel.getStock().observe(viewLifecycleOwner,  {
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
+            items.add(it)
         })
-        items.add(Stock("A", "A", "A", "A", "A", "A", 1, "A", "A", 1.0, "A", "A"))
-//        for (i in 0..10) {
-//            items.add(Stock("A", "A", "A", "A", "A", R.drawable.yndx.toString(), 1, "A", "A", 1.0, "A", "A" ))
-//        }
-
-//        mainViewModel.getStock().observe(viewLifecycleOwner, {
-//            if (it.isEmpty()) {
-//                binding.notSelected.visibility = View.VISIBLE
-//                binding.empty.visibility = View.VISIBLE
-//            } else {
-//                binding.notSelected.visibility = View.GONE
-//                binding.empty.visibility = View.GONE
-//            }
-//            pagerItemAdapter.setData(it)
-//        })
 
         pages.add(Page("Stocks", items))
         pages.add(Page("Favourite", items))

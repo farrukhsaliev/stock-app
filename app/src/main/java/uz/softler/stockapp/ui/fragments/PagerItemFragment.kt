@@ -38,28 +38,31 @@ class PagerItemFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_pager_item, container, false)
         val binding = FragmentPagerItemBinding.bind(view)
 
-        val pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
-            override fun onClickItem(stock: Stock) {
-                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
-//                val postFragment = PostFragment()
-//                val args = Bundle()
-//                args.putSerializable("Post", post as Serializable)
-//                postFragment.arguments = args
+
+
+//            override fun onClickItem(stock: Stock) {
+//                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
+////                val postFragment = PostFragment()
+////                val args = Bundle()
+////                args.putSerializable("Post", post as Serializable)
+////                postFragment.arguments = args
+////
+////                findNavController().navigate(R.id.action_itemFragment_to_postFragment, args)
+//            }
 //
-//                findNavController().navigate(R.id.action_itemFragment_to_postFragment, args)
-            }
+//            override fun onClickStar(stock: Stock) {
+////                if (post.isLiked) {
+////                    mainViewModel.updateIsLiked(false, post.titleUnique)
+////                } else {
+////                    mainViewModel.updateIsLiked(true, post.titleUnique)
+////                }
+//                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
+//            }
+//        }, requireContext())
 
-            override fun onClickStar(stock: Stock) {
-//                if (post.isLiked) {
-//                    mainViewModel.updateIsLiked(false, post.titleUnique)
-//                } else {
-//                    mainViewModel.updateIsLiked(true, post.titleUnique)
-//                }
-                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
-            }
-        }, requireContext())
-
-        pagerItemAdapter.setData(stocks as List<Stock>)
+        val pagerItemAdapter = PagerItemAdapter()
+        pagerItemAdapter.submitList(stocks as List<Stock>)
+//        pagerItemAdapter.setData(stocks as List<Stock>)
         binding.rvPager.adapter = pagerItemAdapter
 
 
