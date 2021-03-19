@@ -90,16 +90,16 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                         .into(it.logo)
 
                 if (position % 2 == 1) {
-                    it.constraintLayout.visibility = View.INVISIBLE
+                    it.background.visibility = View.INVISIBLE
                 } else {
-                    it.constraintLayout.visibility = View.VISIBLE
+                    it.background.visibility = View.VISIBLE
                 }
 
                 binding.imageView5.setOnClickListener {
-                    onClickItem.onClickItem(stock)
+                    onClickItem.onClickStar(stock)
                 }
 
-                binding.constraintLayout.setOnClickListener {
+                binding.item.setOnClickListener {
                     onClickItem.onClickItem(stock)
                 }
             }

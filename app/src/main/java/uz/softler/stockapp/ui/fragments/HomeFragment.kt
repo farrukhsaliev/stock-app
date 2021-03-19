@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,10 +30,9 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val pages = ArrayList<Page>()
+    lateinit var pages: ArrayList<Page>
     private val items = ArrayList<Stock>()
     private val titles = ArrayList<String>()
-    lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +42,14 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val binding = FragmentHomeBinding.bind(view)
 
+        binding.search.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
+        pages = ArrayList()
         pages.add(Page("Stocks", items))
         pages.add(Page("Favourite", items))
+        pages.add(Page("News", items))
 
         pages.forEach {
             titles.add(it.title)

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
 import uz.softler.stockapp.databinding.FragmentPagerItemBinding
@@ -41,30 +42,9 @@ class PagerItemFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_pager_item, container, false)
         val binding = FragmentPagerItemBinding.bind(view)
 
-//        val pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
-//            override fun onClickItem(stock: Stock) {
-//                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
-////                val postFragment = PostFragment()
-////                val args = Bundle()
-////                args.putSerializable("Post", post as Serializable)
-////                postFragment.arguments = args
-////
-////                findNavController().navigate(R.id.action_itemFragment_to_postFragment, args)
-//            }
-//
-//            override fun onClickStar(stock: Stock) {
-////                if (post.isLiked) {
-////                    mainViewModel.updateIsLiked(false, post.titleUnique)
-////                } else {
-////                    mainViewModel.updateIsLiked(true, post.titleUnique)
-////                }
-//                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
-//            }
-//        }, requireContext())
-
         val pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
             override fun onClickItem(stock: Stock) {
-                Toast.makeText(activity, "Item CLicked!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_homeFragment_to_itemFragment)
             }
 
             override fun onClickStar(stock: Stock) {
