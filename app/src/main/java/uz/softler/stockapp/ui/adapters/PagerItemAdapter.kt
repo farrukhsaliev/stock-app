@@ -13,7 +13,65 @@ import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.Stock
 import uz.softler.stockapp.databinding.PagerItemListBinding
 
-class PagerItemAdapter : ListAdapter<Stock, PagerItemAdapter.MyViewHolder>(MyDiffUtil()) {
+//class PagerItemAdapter(var onClickItem: Clickable, var context: Context): RecyclerView.Adapter<PagerItemAdapter.MyViewHolder>() {
+//    private var oldData = emptyList<Stock>()
+//
+//    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//        val binding = PagerItemListBinding.bind(itemView)
+//
+//        fun onBind(stock: Stock, position: Int) {
+//            binding.also {
+//                it.company.text = stock.name
+//                it.ticker.text = stock.ticker
+//                it.price.text = stock.shareOutstanding.toString()
+//
+//                Glide
+//                        .with(itemView.context)
+//                        .load(stock.logo)
+//                        .centerCrop()
+//                        .placeholder(R.drawable.ic_launcher_foreground)
+//                        .into(it.logo)
+//
+//                if (position % 2 == 1) {
+//                    it.constraintLayout.visibility = View.INVISIBLE
+//                } else {
+//                    it.constraintLayout.visibility = View.VISIBLE
+//                }
+//            }
+//        }
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+//        return MyViewHolder(
+//                LayoutInflater.from(parent.context).inflate(
+//                        R.layout.pager_item_list,
+//                        parent,
+//                        false
+//                )
+//        )
+//    }
+//
+//    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+//        holder.onBind(oldData[position], position)
+//    }
+//
+//    override fun getItemCount(): Int {
+//        return oldData.size
+//    }
+//
+//    fun setData(newData: List<Stock>){
+//        oldData = newData
+//        notifyDataSetChanged()
+//    }
+//
+//    interface Clickable {
+//        fun onClickItem(stock: Stock)
+//        fun onClickStar(stock: Stock)
+//    }
+//
+//}
+
+class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListAdapter<Stock, PagerItemAdapter.MyViewHolder>(MyDiffUtil()) {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = PagerItemListBinding.bind(itemView)
@@ -35,6 +93,14 @@ class PagerItemAdapter : ListAdapter<Stock, PagerItemAdapter.MyViewHolder>(MyDif
                     it.constraintLayout.visibility = View.INVISIBLE
                 } else {
                     it.constraintLayout.visibility = View.VISIBLE
+                }
+
+                binding.imageView5.setOnClickListener {
+                    onClickItem.onClickItem(stock)
+                }
+
+                binding.constraintLayout.setOnClickListener {
+                    onClickItem.onClickItem(stock)
                 }
             }
         }

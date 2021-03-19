@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
 import uz.softler.stockapp.databinding.FragmentPagerItemBinding
 import uz.softler.stockapp.data.entities.Stock
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
+import uz.softler.stockapp.ui.viewmodel.MainViewModel
 import java.io.Serializable
 
 private const val ARG_PARAM1 = "param1"
@@ -21,6 +23,7 @@ class PagerItemFragment : Fragment() {
 
     private var title: String? = null
     private var stocks: List<Stock>? = null
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +41,7 @@ class PagerItemFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_pager_item, container, false)
         val binding = FragmentPagerItemBinding.bind(view)
 
-
-
+//        val pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
 //            override fun onClickItem(stock: Stock) {
 //                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
 ////                val postFragment = PostFragment()
@@ -60,11 +62,25 @@ class PagerItemFragment : Fragment() {
 //            }
 //        }, requireContext())
 
-        val pagerItemAdapter = PagerItemAdapter()
-        pagerItemAdapter.submitList(stocks as List<Stock>)
-//        pagerItemAdapter.setData(stocks as List<Stock>)
+        val pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
+            override fun onClickItem(stock: Stock) {
+                Toast.makeText(activity, "Item CLicked!", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onClickStar(stock: Stock) {
+                Toast.makeText(activity, "Liked!", Toast.LENGTH_SHORT).show()
+            }
+
+        }, requireContext())
         binding.rvPager.adapter = pagerItemAdapter
 
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        mainViewModel.stocksLiveData.observe(viewLifecycleOwner,  {
+            pagerItemAdapter.submitList(listOf(it, it, it, it, it, it, it, it, it))
+        })
+
+        Toast.makeText(activity, "Fragment", Toast.LENGTH_SHORT).show()
 
         return view
     }

@@ -6,6 +6,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -40,24 +41,6 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val binding = FragmentHomeBinding.bind(view)
-
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
-        mainViewModel.getStock().observe(viewLifecycleOwner,  {
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-            items.add(it)
-        })
 
         pages.add(Page("Stocks", items))
         pages.add(Page("Favourite", items))
