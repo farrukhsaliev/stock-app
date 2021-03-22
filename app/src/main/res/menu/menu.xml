@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/newsFragment"
+        android:icon="@drawable/ic_news"
+        android:title="News" />
+    <item
+        android:id="@+id/favouritesFragment"
+        android:icon="@drawable/ic_fav"
+        android:title="Favourites" />
+    <item
+        android:id="@+id/recentlyFragment"
+        android:icon="@drawable/ic_recently"
+        android:title="Recently" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings" />
+</menu>

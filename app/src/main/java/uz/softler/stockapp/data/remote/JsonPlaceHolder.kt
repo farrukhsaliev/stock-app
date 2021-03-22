@@ -1,15 +1,20 @@
 package uz.softler.stockapp.data.remote
 
+import androidx.lifecycle.LiveData
 import retrofit2.http.GET
-import uz.softler.stockapp.data.entities.Stock
-import uz.softler.stockapp.data.entities.Symbol
+import retrofit2.http.Url
+import uz.softler.stockapp.data.entities.*
 
 interface JsonPlaceHolder {
+    @GET
+    suspend fun getStock(@Url url: String): Stock
 
-    @GET("profile2?symbol=AAPL&token=c15q95v48v6oal0lpm90")
-    suspend fun getStock(): Stock
+    @GET
+    suspend fun getSymbols(@Url url: String): LiveData<List<SymbolsItem>>
 
-    @GET("symbol?exchange=US&token=c15q95v48v6oal0lpm90")
-    suspend fun getSymbols(): List<Symbol>
+    @GET
+    suspend fun getStocks(@Url url: String): Stocks
 
+    @GET
+    suspend fun getActiveStocks(@Url url: String): Stocks
 }

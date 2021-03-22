@@ -50,7 +50,7 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/star"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="12dp"

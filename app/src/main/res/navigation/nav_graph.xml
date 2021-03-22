@@ -28,11 +28,31 @@
     </fragment>
     <fragment
         android:id="@+id/itemFragment"
-        android:name="uz.softler.stockapp.ItemFragment"
+        android:name="uz.softler.stockapp.ui.fragments.ItemFragment"
         android:label="fragment_item"
         tools:layout="@layout/fragment_item" >
         <action
             android:id="@+id/action_itemFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="uz.softler.stockapp.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="uz.softler.stockapp.FavouritesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites" />
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="uz.softler.stockapp.NewsFragment"
+        android:label="fragment_news"
+        tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/recentlyFragment"
+        android:name="uz.softler.stockapp.RecentlyFragment"
+        android:label="fragment_recently"
+        tools:layout="@layout/fragment_recently" />
 </navigation>

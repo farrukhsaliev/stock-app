@@ -20,6 +20,7 @@ import uz.softler.stockapp.data.local.AppDatabase
 import uz.softler.stockapp.data.local.StockDao
 import uz.softler.stockapp.data.remote.JsonPlaceHolder
 import uz.softler.stockapp.data.repository.StockRepository
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -29,25 +30,25 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
-        .baseUrl("https://finnhub.io/api/v1/stock/")
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(setInterceptor())
-        .build()
+            .baseUrl("https://finnhub.io/api/v1/")
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(setInterceptor())
+            .build()
 
     @Provides
     fun setInterceptor() = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            setLevel(HttpLoggingInterceptor.Level.BODY)
-        })
-        .build()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            })
+            .build()
 
     @Provides
     fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
     fun jsonPlaceHolder(retrofit: Retrofit): JsonPlaceHolder =
-        retrofit.create(JsonPlaceHolder::class.java)
+            retrofit.create(JsonPlaceHolder::class.java)
 
 //    @Singleton
 //    @Provides
@@ -57,12 +58,14 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDatabase(
-        @ApplicationContext context: Context
+            @ApplicationContext context: Context
     ) = Room.databaseBuilder(
-        context,
-        AppDatabase::class.java,
-        "stocks_database"
-    ).fallbackToDestructiveMigration().build()
+            context,
+            AppDatabase::class.java,
+            "stocks_database"
+    ).fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build()
 
     @Singleton
     @Provides
@@ -71,9 +74,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRepository(
-        remoteDataSource: JsonPlaceHolder,
-        localDataSource: StockDao
+            remoteDataSource: JsonPlaceHolder,
+            localDataSource: StockDao
     ) =
-        StockRepository(remoteDataSource, localDataSource)
+            StockRepository(remoteDataSource, localDataSource)
 
 }

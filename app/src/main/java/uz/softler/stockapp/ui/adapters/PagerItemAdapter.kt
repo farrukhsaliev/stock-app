@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import uz.softler.stockapp.R
+import uz.softler.stockapp.data.entities.ActiveStock
 import uz.softler.stockapp.data.entities.Stock
+import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.PagerItemListBinding
 
 //class PagerItemAdapter(var onClickItem: Clickable, var context: Context): RecyclerView.Adapter<PagerItemAdapter.MyViewHolder>() {
@@ -72,23 +74,30 @@ import uz.softler.stockapp.databinding.PagerItemListBinding
 //
 //}
 
-class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListAdapter<Stock, PagerItemAdapter.MyViewHolder>(MyDiffUtil()) {
+class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListAdapter<StockItem, PagerItemAdapter.MyViewHolder>(MyDiffUtil()) {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = PagerItemListBinding.bind(itemView)
 
-        fun onBind(stock: Stock, position: Int) {
+        fun onBind(stock: StockItem, position: Int) {
             binding.also {
-                it.company.text = stock.name
-                it.ticker.text = stock.ticker
-                it.price.text = stock.shareOutstanding.toString()
+                it.company.text = stock.displayName
+                it.ticker.text = stock.symbol
+                it.price.text = stock.postMarketPrice.toString()
+                it.change.text = stock.fiftyTwoWeekHighChange.toString()
 
-                Glide
-                        .with(itemView.context)
-                        .load(stock.logo)
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_launcher_foreground)
-                        .into(it.logo)
+//                Glide
+//                        .with(itemView.context)
+//                        .load(stock.logo)
+//                        .centerCrop()
+//                        .placeholder(R.drawable.yndx)
+//                        .into(it.logo)
+
+//                if (!stock) {
+//                    it.star.setImageResource(R.drawable.ic_unliked)
+//                } else {
+//                    it.star.setImageResource(R.drawable.ic_liked)
+//                }
 
                 if (position % 2 == 1) {
                     it.background.visibility = View.INVISIBLE
@@ -96,7 +105,10 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                     it.background.visibility = View.VISIBLE
                 }
 
-                binding.imageView5.setOnClickListener {
+
+
+
+                binding.star.setOnClickListener {
                     onClickItem.onClickStar(stock)
                 }
 
@@ -121,19 +133,19 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
         holder.onBind(getItem(position), position)
     }
 
-    class MyDiffUtil : DiffUtil.ItemCallback<Stock>() {
-        override fun areItemsTheSame(oldItem: Stock, newItem: Stock): Boolean {
+    class MyDiffUtil : DiffUtil.ItemCallback<StockItem>() {
+        override fun areItemsTheSame(oldItem: StockItem, newItem: StockItem): Boolean {
             return oldItem.id == newItem.id
         }
 
         @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: Stock, newItem: Stock): Boolean {
+        override fun areContentsTheSame(oldItem: StockItem, newItem: StockItem): Boolean {
             return oldItem == newItem
         }
     }
 
     interface Clickable {
-        fun onClickItem(stock: Stock)
-        fun onClickStar(stock: Stock)
+        fun onClickItem(stock: StockItem)
+        fun onClickStar(stock: StockItem)
     }
 }
