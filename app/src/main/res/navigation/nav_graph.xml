@@ -34,25 +34,32 @@
         <action
             android:id="@+id/action_itemFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_itemFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="uz.softler.stockapp.SettingsFragment"
+        android:name="uz.softler.stockapp.ui.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/favouritesFragment"
-        android:name="uz.softler.stockapp.FavouritesFragment"
+        android:name="uz.softler.stockapp.ui.fragments.FavouritesFragment"
         android:label="fragment_favourites"
-        tools:layout="@layout/fragment_favourites" />
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_itemFragment"
+            app:destination="@id/itemFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newsFragment"
-        android:name="uz.softler.stockapp.NewsFragment"
+        android:name="uz.softler.stockapp.ui.fragments.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/recentlyFragment"
-        android:name="uz.softler.stockapp.RecentlyFragment"
+        android:name="uz.softler.stockapp.ui.fragments.RecentlyFragment"
         android:label="fragment_recently"
         tools:layout="@layout/fragment_recently" />
 </navigation>

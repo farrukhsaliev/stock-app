@@ -13,13 +13,12 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
-import uz.softler.stockapp.data.entities.ActiveStock
 import uz.softler.stockapp.data.entities.Page
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.FragmentHomeBinding
 import uz.softler.stockapp.databinding.TabItemBinding
 import uz.softler.stockapp.ui.adapters.ViewPagerAdapter
-import uz.softler.stockapp.ui.viewmodel.MainViewModel
+import uz.softler.stockapp.ui.viewmodel.PagerItemViewModel
 import uz.softler.stockapp.utils.Strings
 import kotlin.collections.ArrayList
 
@@ -28,9 +27,8 @@ import kotlin.collections.ArrayList
 class HomeFragment : Fragment() {
 
     lateinit var pages: ArrayList<Page>
-    private val items = ArrayList<StockItem>()
     private val titles = ArrayList<String>()
-    lateinit var mainViewModel: MainViewModel
+    lateinit var pagerItemViewModel: PagerItemViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -40,18 +38,21 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val binding = FragmentHomeBinding.bind(view)
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        pagerItemViewModel = ViewModelProvider(this).get(PagerItemViewModel::class.java)
 
         binding.search.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
-            findNavController().popBackStack()
         }
 
         pages = ArrayList()
-        pages.add(Page(Strings.STOCK_SECTION_1, items))
-        pages.add(Page(Strings.STOCK_SECTION_2, items))
-        pages.add(Page(Strings.STOCK_SECTION_3, items))
-        pages.add(Page(Strings.STOCK_SECTION_4, items))
+        pages.add(Page(Strings.STOCK_SECTION_1_VALUE, Strings.STOCK_SECTION_1))
+        pages.add(Page(Strings.STOCK_SECTION_2_VALUE, Strings.STOCK_SECTION_2))
+        pages.add(Page(Strings.STOCK_SECTION_3_VALUE, Strings.STOCK_SECTION_3))
+        pages.add(Page(Strings.STOCK_SECTION_4_VALUE, Strings.STOCK_SECTION_4))
+//        pages.add(Page(Strings.STOCK_SECTION_5_VALUE, Strings.STOCK_SECTION_5))
+//        pages.add(Page(Strings.STOCK_SECTION_6_VALUE, Strings.STOCK_SECTION_6))
+//        pages.add(Page(Strings.STOCK_SECTION_7_VALUE, Strings.STOCK_SECTION_7))
+//        pages.add(Page(Strings.STOCK_SECTION_8_VALUE, Strings.STOCK_SECTION_8))
 
         pages.forEach {
             titles.add(it.title)
@@ -71,7 +72,7 @@ class HomeFragment : Fragment() {
 
                     if (position == 0) {
                         bind.title.setTextColor(Color.parseColor("#000000"))
-                        bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28F)
+                        bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22F)
                     } else {
                         bind.title.setTextColor(Color.parseColor("#BABABA"))
                         bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
@@ -83,7 +84,7 @@ class HomeFragment : Fragment() {
                 val customView = tab?.customView
                 val bind = TabItemBinding.bind(customView!!)
                 bind.title.setTextColor(Color.parseColor("#000000"))
-                bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28F)
+                bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22F)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

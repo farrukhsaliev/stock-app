@@ -10,31 +10,35 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
-import uz.softler.stockapp.data.entities.ActiveStock
 import uz.softler.stockapp.data.entities.StockItem
-import uz.softler.stockapp.data.entities.StockSymbol
+import uz.softler.stockapp.data.repository.StockRepository
 import uz.softler.stockapp.databinding.FragmentPagerItemBinding
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
-import uz.softler.stockapp.ui.viewmodel.MainViewModel
+import uz.softler.stockapp.ui.viewmodel.PagerItemViewModel
 import uz.softler.stockapp.utils.Strings
 import java.io.Serializable
+import javax.inject.Inject
 
+private const val VALUE = "value1"
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 @AndroidEntryPoint
 class PagerItemFragment : Fragment() {
 
+    private var value = ""
     private var title: String? = null
-    private var stocks: List<StockItem>? = null
-    lateinit var mainViewModel: MainViewModel
+    lateinit var pagerItemViewModel: PagerItemViewModel
     private lateinit var pagerItemAdapter: PagerItemAdapter
+    var isSent: Boolean = false
+
+    @Inject
+    lateinit var repository: StockRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            value = it.getString(VALUE).toString()
             title = it.getString(ARG_PARAM1)
-            stocks = it.getSerializable(ARG_PARAM2) as List<StockItem>
         }
     }
 
@@ -42,11 +46,18 @@ class PagerItemFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString("isSent") == "Sent") {
+                isSent = true
+            }
+        }
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_pager_item, container, false)
         val binding = FragmentPagerItemBinding.bind(view)
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        pagerItemViewModel = ViewModelProvider(this).get(PagerItemViewModel::class.java)
 
         pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
             override fun onClickItem(stock: StockItem) {
@@ -58,9 +69,17 @@ class PagerItemFragment : Fragment() {
             }
 
             override fun onClickStar(stock: StockItem) {
+                val list = pagerItemViewModel.getAllLikedStocksList()
 
-                mainViewModel.insert(StockSymbol(stock.symbol))
-                Toast.makeText(activity, "ADDED", Toast.LENGTH_SHORT).show()
+                if (!list.contains(stock)) {
+                    pagerItemViewModel.update(true, stock.symbol)
+                    pagerItemViewModel.insert(stock)
+                    Toast.makeText(activity, "${stock.isLiked}", Toast.LENGTH_SHORT).show()
+                } else {
+                    pagerItemViewModel.update(false, stock.symbol)
+                    pagerItemViewModel.remove(stock.symbol)
+                    Toast.makeText(activity, "${stock.isLiked}", Toast.LENGTH_SHORT).show()
+                }
             }
 
         }, requireContext())
@@ -77,10 +96,22 @@ class PagerItemFragment : Fragment() {
 //            pagerItemAdapter.submitList(it)
 //        })
 
-//        if (title == Strings.STOCK_SECTION_1) {
-            mainViewModel.activeStocksLiveData.observe(viewLifecycleOwner, {
-                pagerItemAdapter.submitList(it)
-            })
+        pagerItemViewModel.getStocks(value, isSent).observe(viewLifecycleOwner, { its ->
+            pagerItemAdapter.submitList(its)
+        })
+
+        pagerItemViewModel.isLoading.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.INVISIBLE
+            }
+        })
+
+//        if (mainViewModel.stocksLiveData.value?.isNotEmpty() == true) {
+//            binding.progressBar.visibility = 0
+//        }
+
 //        }
 
 //        Toast.makeText(activity, symbols.toString(), Toast.LENGTH_SHORT).show()
@@ -88,15 +119,20 @@ class PagerItemFragment : Fragment() {
         return view
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("isSent", "Sent")
+        super.onSaveInstanceState(outState)
+    }
+
     companion object {
 
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(title: String, list: List<StockItem>) =
+        fun newInstance(value: String, title: String) =
                 PagerItemFragment().apply {
                     arguments = Bundle().apply {
+                        putString(VALUE, value)
                         putString(ARG_PARAM1, title)
-                        putSerializable(ARG_PARAM2, list as Serializable)
                     }
                 }
     }

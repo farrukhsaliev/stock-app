@@ -13,16 +13,24 @@ class StockRepository @Inject constructor(
     private val localDataSource: StockDao
 ) {
 
-    suspend fun insert(stockSymbol: StockSymbol) {
-        localDataSource.insert(stockSymbol)
+    suspend fun insert(stockItem: StockItem) {
+        localDataSource.insert(stockItem)
     }
 
-    fun getAllLikedSymbols(): LiveData<List<StockSymbol>> {
-        return localDataSource.getAllLikedSymbols()
+    fun getAllLikedStocks(): LiveData<List<StockItem>> {
+        return localDataSource.getAllLikedStocks()
+    }
+
+    fun getAllLikedStocksList(): List<StockItem> {
+        return localDataSource.getAllLikedStocksList()
     }
 
     suspend fun remove(stockSymbol: String) {
         localDataSource.remove(stockSymbol)
+    }
+
+    suspend fun update(isLiked: Boolean, symbol: String) {
+        localDataSource.update(isLiked, symbol)
     }
 
 //    suspend fun update(isLiked: Boolean, id: Int) {
@@ -67,4 +75,5 @@ class StockRepository @Inject constructor(
             DataWrapper.Error(e.message.toString())
         }
     }
+
 }

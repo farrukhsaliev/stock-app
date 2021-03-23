@@ -17,4 +17,5 @@ interface JsonPlaceHolder {
 
     @GET
     suspend fun getActiveStocks(@Url url: String): Stocks
+
 }

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Entity(tableName = "stocks_table")
 data class StockItem(
     val ask: Double,
     val askSize: Int,
@@ -67,7 +68,7 @@ data class StockItem(
     val regularMarketPrice: Double,
     val regularMarketTime: Int,
     val regularMarketVolume: Int,
-    val sharesOutstanding: Int,
+    val sharesOutstanding: Long,
     val shortName: String,
     val sourceInterval: Int,
     val symbol: String,
@@ -78,9 +79,10 @@ data class StockItem(
     val triggerable: Boolean,
     val twoHundredDayAverage: Double,
     val twoHundredDayAverageChange: Double,
-    val twoHundredDayAverageChangePercent: Double
-//    var isLiked: Boolean = false
+    val twoHundredDayAverageChangePercent: Double,
+    var isLiked: Boolean
 ): Serializable {
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 //    var logo: String = ""
 //    var isLiked: Boolean = false

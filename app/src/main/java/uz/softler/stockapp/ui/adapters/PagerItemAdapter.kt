@@ -2,19 +2,18 @@ package uz.softler.stockapp.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
-import uz.softler.stockapp.data.entities.ActiveStock
-import uz.softler.stockapp.data.entities.Stock
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.PagerItemListBinding
+import uz.softler.stockapp.ui.viewmodel.PagerItemViewModel
 
 //class PagerItemAdapter(var onClickItem: Clickable, var context: Context): RecyclerView.Adapter<PagerItemAdapter.MyViewHolder>() {
 //    private var oldData = emptyList<Stock>()
@@ -81,10 +80,15 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
 
         fun onBind(stock: StockItem, position: Int) {
             binding.also {
-                it.company.text = stock.displayName
+                it.company.text = stock.shortName
                 it.ticker.text = stock.symbol
-                it.price.text = stock.postMarketPrice.toString()
-                it.change.text = stock.fiftyTwoWeekHighChange.toString()
+                it.price.text = stock.regularMarketPrice.toString()
+                if ( stock.fiftyTwoWeekHighChange.toString().length >= 5) {
+                    it.change.text = stock.fiftyTwoWeekHighChange.toString().substring(0, 5)
+                } else {
+                    it.change.text = stock.fiftyTwoWeekHighChange.toString()
+                }
+
 
 //                Glide
 //                        .with(itemView.context)
@@ -104,9 +108,6 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                 } else {
                     it.background.visibility = View.VISIBLE
                 }
-
-
-
 
                 binding.star.setOnClickListener {
                     onClickItem.onClickStar(stock)

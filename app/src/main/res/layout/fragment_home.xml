@@ -21,7 +21,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="6dp"
             android:background="@drawable/shape_search"
             android:fitsSystemWindows="true"
             android:orientation="vertical"

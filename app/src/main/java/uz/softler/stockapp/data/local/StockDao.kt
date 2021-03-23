@@ -1,28 +1,28 @@
 package uz.softler.stockapp.data.local
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
-import uz.softler.stockapp.data.entities.Stock
+import androidx.room.*
 import uz.softler.stockapp.data.entities.StockItem
-import uz.softler.stockapp.data.entities.StockSymbol
 
 @Dao
 interface StockDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(stockSymbol: StockSymbol)
+    suspend fun insert(stockItem: StockItem)
 
     @Query("SELECT * FROM stocks_table")
-    fun getAllLikedSymbols(): LiveData<List<StockSymbol>>
+    fun getAllLikedStocks(): LiveData<List<StockItem>>
+
+    @Query("SELECT * FROM stocks_table")
+    fun getAllLikedStocksList(): List<StockItem>
 
     @Query("DELETE FROM stocks_table WHERE symbol=:stockSymbol")
     suspend fun remove(stockSymbol: String)
 
-//    @Query("UPDATE stocks_table SET isLiked = :isLiked WHERE id = :id")
-//    suspend fun update(isLiked: Boolean, id: Int)
+    @Query("UPDATE stocks_table SET isLiked = :isLiked WHERE symbol = :symbol")
+    suspend fun update(isLiked: Boolean, symbol: String)
+
+//    @Update
+//    suspend fun update(isLiked: Boolean, symbol: String)
 
 }

@@ -16,6 +16,6 @@ class ViewPagerAdapter(var pageList: List<Page>, fragmentActivity: FragmentActiv
     }
 
     override fun createFragment(position: Int): Fragment {
-        return PagerItemFragment.newInstance(pageList[position].title, pageList[position].items)
+        return PagerItemFragment.newInstance(pageList[position].value, pageList[position].title)
     }
 }
