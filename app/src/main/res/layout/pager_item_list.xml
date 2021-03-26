@@ -60,7 +60,8 @@
         android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toTopOf="@+id/company"
         app:layout_constraintStart_toEndOf="@+id/ticker"
-        app:srcCompat="@drawable/ic_unliked" />
+        app:srcCompat="@drawable/ic_unliked"
+        tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:id="@+id/price"
@@ -109,6 +110,6 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/yndx" />
+            android:src="@drawable/placeholder" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

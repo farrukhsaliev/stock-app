@@ -14,7 +14,7 @@ data class StockItem(
     val bidSize: Int,
     val bookValue: Double,
     val currency: String,
-    val displayName: String,
+    val displayName: String?,
     val dividendDate: Int,
     val earningsTimestamp: Int,
     val earningsTimestampEnd: Int,
@@ -37,7 +37,7 @@ data class StockItem(
     val fiftyTwoWeekLowChange: Double,
     val fiftyTwoWeekLowChangePercent: Double,
     val fiftyTwoWeekRange: String,
-    val financialCurrency: String,
+    val financialCurrency: String?,
     val firstTradeDateMilliseconds: Long,
     val forwardPE: Double,
     val fullExchangeName: String,
@@ -80,17 +80,8 @@ data class StockItem(
     val twoHundredDayAverage: Double,
     val twoHundredDayAverageChange: Double,
     val twoHundredDayAverageChangePercent: Double,
-    var isLiked: Boolean
+    var isLiked: Boolean = false
 ): Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
-//    var logo: String = ""
-//    var isLiked: Boolean = false
-//        set(value) {
-//            setter(value)
-//        }
-//
-//    private fun setter(isLiked: Boolean) {
-//        this.isLiked = isLiked
-//    }
 }

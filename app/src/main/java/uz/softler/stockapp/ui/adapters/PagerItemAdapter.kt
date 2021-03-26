@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -97,11 +98,11 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
 //                        .placeholder(R.drawable.yndx)
 //                        .into(it.logo)
 
-//                if (!stock) {
-//                    it.star.setImageResource(R.drawable.ic_unliked)
-//                } else {
-//                    it.star.setImageResource(R.drawable.ic_liked)
-//                }
+                if (!stock.isLiked) {
+                    it.star.setImageResource(R.drawable.ic_unliked)
+                } else {
+                    it.star.setImageResource(R.drawable.ic_liked)
+                }
 
                 if (position % 2 == 1) {
                     it.background.visibility = View.INVISIBLE
@@ -110,7 +111,8 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                 }
 
                 binding.star.setOnClickListener {
-                    onClickItem.onClickStar(stock)
+//                    onClickItem.onClickStar(stock)
+                    onClickItem.onClickStar(stock, binding.star)
                 }
 
                 binding.item.setOnClickListener {
@@ -147,6 +149,6 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
 
     interface Clickable {
         fun onClickItem(stock: StockItem)
-        fun onClickStar(stock: StockItem)
+        fun onClickStar(stock: StockItem, star: ImageView)
     }
 }

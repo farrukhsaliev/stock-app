@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import uz.softler.stockapp.data.entities.StockItem
@@ -17,29 +18,36 @@ class FavouritesViewModel @ViewModelInject constructor(
         private val repository: StockRepository
 ) : ViewModel() {
 
-    fun insert(stockItem: StockItem) {
+//    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+    private var _stocksLiveData = MutableLiveData<List<StockItem>>()
+    val stocksLiveData: LiveData<List<StockItem>> = _stocksLiveData
+
+    fun insert(stocks: List<StockItem>) {
         viewModelScope.launch {
-            repository.insert(stockItem)
+            repository.insert(stocks)
         }
     }
 
-    fun remove(stockSymbol: String) {
-        viewModelScope.launch {
-            repository.remove(stockSymbol)
-        }
-    }
+//    fun remove(stockSymbol: String) {
+//         viewModelScope.launch {
+//            repository.remove(stockSymbol)
+//        }
+//    }
 
     fun getAllLikedStocks(): LiveData<List<StockItem>> {
         return repository.getAllLikedStocks()
     }
 
-    fun getAllLikedStocksList(): List<StockItem> {
-        return repository.getAllLikedStocksList()
-    }
+//    fun update(isLiked: Boolean, symbol: String) {
+//        viewModelScope.launch {
+//            repository.update(isLiked, symbol)
+//        }
+//    }
 
-    fun update(isLiked: Boolean, symbol: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.update(isLiked, symbol)
+    init {
+        viewModelScope.launch {
+            _stocksLiveData.postValue(repository.getAllLikedStocks().value)
         }
     }
 }

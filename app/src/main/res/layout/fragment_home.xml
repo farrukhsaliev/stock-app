@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="Find company or ticker"
+                android:text="@string/find_company_or_ticker"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"

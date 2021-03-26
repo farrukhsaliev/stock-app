@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -25,9 +26,7 @@ class FavouritesFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_favourites, container, false)
-
         val binding = FragmentFavouritesBinding.bind(view)
 
         favouritesViewModel = ViewModelProvider(this).get(FavouritesViewModel::class.java)
@@ -41,17 +40,14 @@ class FavouritesFragment : Fragment() {
                 findNavController().navigate(R.id.action_favouritesFragment_to_itemFragment, args)
             }
 
-            override fun onClickStar(stock: StockItem) {
-                val list = favouritesViewModel.getAllLikedStocksList()
+            override fun onClickStar(stock: StockItem, star: ImageView) {
 
-                if (!list.contains(stock)) {
-                    favouritesViewModel.insert(stock)
-                } else {
-                    favouritesViewModel.remove(stock.symbol)
-                }
+//                star.setImageResource(R.drawable.ic_unliked)
+//                favouritesViewModel.remove(stock.symbol)
             }
 
         }, requireContext())
+
         binding.rvPager.adapter = pagerItemAdapter
 
         favouritesViewModel.getAllLikedStocks().observe(viewLifecycleOwner, {

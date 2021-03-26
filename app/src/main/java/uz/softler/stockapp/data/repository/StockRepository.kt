@@ -13,63 +13,40 @@ class StockRepository @Inject constructor(
     private val localDataSource: StockDao
 ) {
 
-    suspend fun insert(stockItem: StockItem) {
-        localDataSource.insert(stockItem)
+    // Dao
+
+    suspend fun insert(stocks: List<StockItem>) {
+        localDataSource.insert(stocks)
+    }
+
+//    suspend fun remove(stockSymbol: String) {
+//        localDataSource.remove(stockSymbol)
+//    }
+
+    suspend fun update(isLiked: Boolean, symbol: String) {
+        localDataSource.update(isLiked, symbol)
     }
 
     fun getAllLikedStocks(): LiveData<List<StockItem>> {
         return localDataSource.getAllLikedStocks()
     }
 
-    fun getAllLikedStocksList(): List<StockItem> {
-        return localDataSource.getAllLikedStocksList()
-    }
-
-    suspend fun remove(stockSymbol: String) {
-        localDataSource.remove(stockSymbol)
-    }
-
-    suspend fun update(isLiked: Boolean, symbol: String) {
-        localDataSource.update(isLiked, symbol)
-    }
-
-//    suspend fun update(isLiked: Boolean, id: Int) {
-//        localDataSource.update(isLiked, id)
-//    }
-
-//    suspend fun getStocksList(list: List<SymbolsItem>): ArrayList<Stock> {
-//        val stocks = ArrayList<Stock>()
-//
-//        for (i in 30..40) {
-//            val url =
-//                "https://finnhub.io/api/v1/stock/profile2?symbol=${list[0].quotes[i]}&token=c15q95v48v6oal0lpm90"
-//            stocks.add(remoteDataSource.getStock(url))
-//        }
-//
-//        return stocks
-//    }
-
-    suspend fun getSymbols(url: String): DataWrapper<List<SymbolsItem>> {
+    suspend fun getNews(): DataWrapper<List<News>> {
         return try {
-            val listOfSymbols = remoteDataSource.getSymbols(url) as ArrayList<SymbolsItem>
-            DataWrapper.Success(listOfSymbols)
+            DataWrapper.Success(remoteDataSource.getNews())
         } catch (e: Exception) {
             DataWrapper.Error(e.message.toString())
         }
     }
+
+
+
+
+    // JsonPlaceHolder
 
     suspend fun getStocks(url: String): DataWrapper<List<StockItem>> {
         return try {
             val stocks = remoteDataSource.getStocks(url).quotes
-            DataWrapper.Success(stocks)
-        } catch (e: Exception) {
-            DataWrapper.Error(e.message.toString())
-        }
-    }
-
-    suspend fun getActiveStocks(url: String): DataWrapper<List<StockItem>> {
-        return try {
-            val stocks = remoteDataSource.getActiveStocks(url).quotes
             DataWrapper.Success(stocks)
         } catch (e: Exception) {
             DataWrapper.Error(e.message.toString())

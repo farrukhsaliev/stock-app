@@ -64,7 +64,6 @@ object AppModule {
             AppDatabase::class.java,
             "stocks_database"
     ).fallbackToDestructiveMigration()
-            .allowMainThreadQueries()
             .build()
 
     @Singleton

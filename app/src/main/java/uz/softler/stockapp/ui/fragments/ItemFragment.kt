@@ -16,13 +16,10 @@ class ItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_item, container, false)
         val binding = FragmentItemBinding.bind(view)
 
-        val stockItem: StockItem = arguments?.getSerializable(Strings.ITEM_KEY) as StockItem
-
-        binding.tv.text = stockItem.displayName
+//        val stockItem: StockItem = arguments?.getSerializable(Strings.ITEM_KEY) as StockItem
 
         return view
     }
