@@ -2,6 +2,7 @@ package uz.softler.stockapp.ui.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
@@ -25,6 +26,14 @@ class MainActivity : AppCompatActivity() {
         val findNavController = findNavController(R.id.fragment)
 
         binding.bottomNavView.setupWithNavController(findNavController)
+
+        findNavController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.searchFragment -> binding.bottomNavView.visibility = View.GONE
+
+                else -> binding.bottomNavView.visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun attachBaseContext(newBase: Context?) {

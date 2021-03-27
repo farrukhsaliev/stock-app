@@ -1,17 +1,11 @@
 package uz.softler.stockapp.ui.fragments
 
-import android.content.Context
 import android.graphics.Color
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,7 +16,7 @@ import uz.softler.stockapp.R
 import uz.softler.stockapp.databinding.FragmentHomeBinding
 import uz.softler.stockapp.databinding.TabItemBinding
 import uz.softler.stockapp.ui.adapters.ViewPagerAdapter
-import uz.softler.stockapp.ui.viewmodel.PagerItemViewModel
+import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
 import uz.softler.stockapp.utils.Strings
 import kotlin.collections.ArrayList
 
@@ -40,10 +34,6 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val binding = FragmentHomeBinding.bind(view)
-
-        val networkAvailable = isNetworkAvailable(context)
-
-        Toast.makeText(activity, networkAvailable.toString(), Toast.LENGTH_SHORT).show()
 
         pagerItemViewModel = ViewModelProvider(this).get(PagerItemViewModel::class.java)
 
@@ -108,35 +98,4 @@ class HomeFragment : Fragment() {
         titles.add(resources.getString(R.string.day_losers))
     }
 
-//    private fun isNetworkConnected(): Boolean {
-//        val cm: ConnectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//        return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected();
-//    }
-
-    fun isNetworkAvailable(context: Context?): Boolean {
-        if (context == null) return false
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                when {
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                        return true
-                    }
-                }
-            }
-        } else {
-            val activeNetworkInfo = connectivityManager.activeNetworkInfo
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
-                return true
-            }
-        }
-        return false
-    }
 }

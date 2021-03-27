@@ -2,6 +2,7 @@ package uz.softler.stockapp.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity(tableName = "stocks_table")
@@ -71,7 +72,6 @@ data class StockItem(
     val sharesOutstanding: Long,
     val shortName: String,
     val sourceInterval: Int,
-    val symbol: String,
     val tradeable: Boolean,
     val trailingAnnualDividendRate: Double,
     val trailingAnnualDividendYield: Double,
@@ -80,8 +80,11 @@ data class StockItem(
     val twoHundredDayAverage: Double,
     val twoHundredDayAverageChange: Double,
     val twoHundredDayAverageChangePercent: Double,
-    var isLiked: Boolean = false
+    @PrimaryKey
+    val symbol: String,
+    var isLiked: Boolean = false,
+    var section: String = ""
 ): Serializable {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    @SerializedName("id")
+    var id: Int? = null
 }

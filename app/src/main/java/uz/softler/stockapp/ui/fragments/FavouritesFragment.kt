@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +12,7 @@ import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.FragmentFavouritesBinding
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
-import uz.softler.stockapp.ui.viewmodel.FavouritesViewModel
+import uz.softler.stockapp.ui.viewmodels.FavouritesViewModel
 import uz.softler.stockapp.utils.Strings
 import java.io.Serializable
 
@@ -40,10 +38,10 @@ class FavouritesFragment : Fragment() {
                 findNavController().navigate(R.id.action_favouritesFragment_to_itemFragment, args)
             }
 
-            override fun onClickStar(stock: StockItem, star: ImageView) {
+            override fun onClickStar(stock: StockItem, position: Int, count: Int) {
+                pagerItemAdapter.notifyItemRangeChanged(position, count)
+                favouritesViewModel.update(false, stock.symbol)
 
-//                star.setImageResource(R.drawable.ic_unliked)
-//                favouritesViewModel.remove(stock.symbol)
             }
 
         }, requireContext())

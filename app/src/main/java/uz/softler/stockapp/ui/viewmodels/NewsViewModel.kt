@@ -1,18 +1,16 @@
-package uz.softler.stockapp.ui.viewmodel
+package uz.softler.stockapp.ui.viewmodels
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import uz.softler.stockapp.data.entities.News
-import uz.softler.stockapp.data.repository.StockRepository
+import uz.softler.stockapp.data.repository.NewsRepository
 import uz.softler.stockapp.utils.DataWrapper
 
 class NewsViewModel @ViewModelInject constructor(
-        private val repository: StockRepository
+        private val repository: NewsRepository
 ) : ViewModel() {
 
     private var _newsLiveData = MutableLiveData<List<News>>()
@@ -21,10 +19,21 @@ class NewsViewModel @ViewModelInject constructor(
     private var _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    fun insert(newsList: List<News>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(newsList)
+        }
+    }
+
+    fun getNewsLocal(): LiveData<List<News>> {
+        _isLoading.postValue(false)
+        return repository.getNewsLocal().asLiveData()
+    }
+
     init {
         viewModelScope.launch {
             _isLoading.postValue(true)
-            repository.getNews().also {
+            repository.getNewsRemote().also {
                 when(it) {
                     is DataWrapper.Success -> {
                         _newsLiveData.postValue(it.data)
@@ -36,6 +45,5 @@ class NewsViewModel @ViewModelInject constructor(
             }
             _isLoading.postValue(false)
         }
-
     }
 }

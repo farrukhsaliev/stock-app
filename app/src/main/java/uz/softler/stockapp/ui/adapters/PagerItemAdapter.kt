@@ -5,16 +5,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.PagerItemListBinding
-import uz.softler.stockapp.ui.viewmodel.PagerItemViewModel
 
 //class PagerItemAdapter(var onClickItem: Clickable, var context: Context): RecyclerView.Adapter<PagerItemAdapter.MyViewHolder>() {
 //    private var oldData = emptyList<Stock>()
@@ -79,7 +75,7 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = PagerItemListBinding.bind(itemView)
 
-        fun onBind(stock: StockItem, position: Int) {
+        fun onBind(stock: StockItem, position: Int, oldPosition: Int) {
             binding.also {
                 it.company.text = stock.shortName
                 it.ticker.text = stock.symbol
@@ -112,7 +108,7 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
 
                 binding.star.setOnClickListener {
 //                    onClickItem.onClickStar(stock)
-                    onClickItem.onClickStar(stock, binding.star)
+                    onClickItem.onClickStar(stock, position, oldPosition)
                 }
 
                 binding.item.setOnClickListener {
@@ -133,7 +129,7 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.onBind(getItem(position), position)
+        holder.onBind(getItem(position), position, holder.oldPosition)
     }
 
     class MyDiffUtil : DiffUtil.ItemCallback<StockItem>() {
@@ -145,10 +141,14 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
         override fun areContentsTheSame(oldItem: StockItem, newItem: StockItem): Boolean {
             return oldItem == newItem
         }
+
+        override fun getChangePayload(oldItem: StockItem, newItem: StockItem): Any {
+            return false
+        }
     }
 
     interface Clickable {
         fun onClickItem(stock: StockItem)
-        fun onClickStar(stock: StockItem, star: ImageView)
+        fun onClickStar(stock: StockItem, position: Int, count: Int)
     }
 }

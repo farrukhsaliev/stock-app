@@ -12,15 +12,14 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit.CallAdapter
-import retrofit.RxJavaCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import uz.softler.stockapp.data.local.AppDatabase
+import uz.softler.stockapp.data.local.NewsDao
 import uz.softler.stockapp.data.local.StockDao
 import uz.softler.stockapp.data.remote.JsonPlaceHolder
+import uz.softler.stockapp.data.repository.NewsRepository
 import uz.softler.stockapp.data.repository.StockRepository
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -72,10 +71,22 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRepository(
+    fun provideStockRepository(
             remoteDataSource: JsonPlaceHolder,
             localDataSource: StockDao
     ) =
             StockRepository(remoteDataSource, localDataSource)
+
+    @Singleton
+    @Provides
+    fun provideNewsDao(db: AppDatabase) = db.newsDao()
+
+    @Singleton
+    @Provides
+    fun provideNewsRepository(
+            remoteDataSource: JsonPlaceHolder,
+            localDataSource: NewsDao
+    ) =
+            NewsRepository(remoteDataSource, localDataSource)
 
 }

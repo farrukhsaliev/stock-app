@@ -1,7 +1,6 @@
 package uz.softler.stockapp.data.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import uz.softler.stockapp.data.entities.*
 import uz.softler.stockapp.data.local.StockDao
 import uz.softler.stockapp.data.remote.JsonPlaceHolder
@@ -27,30 +26,34 @@ class StockRepository @Inject constructor(
         localDataSource.update(isLiked, symbol)
     }
 
-    fun getAllLikedStocks(): LiveData<List<StockItem>> {
+    fun getAllSectionStocks(value: String): Flow<List<StockItem>> {
+        return localDataSource.getAllSectionStocks(value)
+    }
+
+    fun getAllLikedStocks(): Flow<List<StockItem>> {
         return localDataSource.getAllLikedStocks()
     }
 
-    suspend fun getNews(): DataWrapper<List<News>> {
-        return try {
-            DataWrapper.Success(remoteDataSource.getNews())
-        } catch (e: Exception) {
-            DataWrapper.Error(e.message.toString())
-        }
-    }
+//    suspend fun getPagingStocks(url: String) =
+//        remoteDataSource.getPagingStocks(url)
 
-
-
+//    fun getStocksList(url: String): LiveData<PagingData<StockItem>> {
+//        return Pager(
+//            PagingConfig(
+//                pageSize = 20,
+//                maxSize = 100,
+//                enablePlaceholders = false
+//            ),
+//            pagingSourceFactory = { StockPagingSource(remoteDataSource, url) }
+//        ).liveData
+//    }
 
     // JsonPlaceHolder
-
     suspend fun getStocks(url: String): DataWrapper<List<StockItem>> {
         return try {
-            val stocks = remoteDataSource.getStocks(url).quotes
-            DataWrapper.Success(stocks)
+            DataWrapper.Success(remoteDataSource.getStocks(url).quotes)
         } catch (e: Exception) {
             DataWrapper.Error(e.message.toString())
         }
     }
-
 }
