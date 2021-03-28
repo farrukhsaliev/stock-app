@@ -2,12 +2,15 @@ package uz.softler.stockapp.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.PagerItemListBinding
@@ -79,20 +82,27 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
             binding.also {
                 it.company.text = stock.shortName
                 it.ticker.text = stock.symbol
-                it.price.text = stock.regularMarketPrice.toString()
-                if ( stock.fiftyTwoWeekHighChange.toString().length >= 5) {
-                    it.change.text = stock.fiftyTwoWeekHighChange.toString().substring(0, 5)
+                it.price.text = "$${stock.regularMarketPrice.toString()}"
+                if (stock.regularMarketChange.toString()[0] == '-') {
+                    it.change.setTextColor(Color.parseColor("#B22424"))
                 } else {
-                    it.change.text = stock.fiftyTwoWeekHighChange.toString()
+                    it.change.setTextColor(Color.parseColor("#24B25D"))
                 }
 
+                if (stock.regularMarketChange.toString().length > 4) {
+                    it.change.text = "${stock.regularMarketChange.toString().substring(0, stock.regularMarketChange.toString().indexOf('.')+3)} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf( '.')+2)}%)"
+                } else {
+                    it.change.text = "${stock.regularMarketChange.toString()} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf( '.')+2)}%)"
+                }
 
-//                Glide
-//                        .with(itemView.context)
-//                        .load(stock.logo)
-//                        .centerCrop()
-//                        .placeholder(R.drawable.yndx)
-//                        .into(it.logo)
+                Glide
+                        .with(itemView.context)
+                        .load(stock.logo)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .centerCrop()
+                        .placeholder(R.drawable.placeholder)
+                        .into(it.logo)
+
 
                 if (!stock.isLiked) {
                     it.star.setImageResource(R.drawable.ic_unliked)

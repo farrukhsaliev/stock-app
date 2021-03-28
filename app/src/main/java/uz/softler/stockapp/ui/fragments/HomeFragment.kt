@@ -24,8 +24,8 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private var values = ArrayList<String>()
-    private val titles = ArrayList<String>()
+    private lateinit var values: ArrayList<String>
+    private lateinit var titles: ArrayList<String>
     lateinit var pagerItemViewModel: PagerItemViewModel
 
     override fun onCreateView(
@@ -40,6 +40,9 @@ class HomeFragment : Fragment() {
         binding.search.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
+
+        values = ArrayList<String>()
+        titles = ArrayList<String>()
 
         loadData()
 

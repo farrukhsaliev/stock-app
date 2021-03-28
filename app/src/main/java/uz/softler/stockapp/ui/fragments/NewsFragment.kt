@@ -51,7 +51,6 @@ class NewsFragment : Fragment() {
 
         if (networkAvailable) {
             newsViewModel.newsLiveData.observe(viewLifecycleOwner, {
-
                 newsViewModel.insert(it)
             })
         } else {

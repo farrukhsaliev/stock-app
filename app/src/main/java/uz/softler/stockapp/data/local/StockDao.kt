@@ -17,6 +17,9 @@ interface StockDao {
     @Query("UPDATE stocks_table SET isLiked = :isLiked WHERE symbol = :symbol")
     suspend fun update(isLiked: Boolean, symbol: String)
 
+    @Query("UPDATE stocks_table SET logo = :logo WHERE symbol = :symbol")
+    suspend fun updateLogo(logo: String, symbol: String)
+
     @Query("SELECT * FROM stocks_table WHERE section = :value")
     fun getAllSectionStocks(value: String): Flow<List<StockItem>>
 

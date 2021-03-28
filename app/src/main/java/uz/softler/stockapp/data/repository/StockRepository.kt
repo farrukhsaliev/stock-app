@@ -26,6 +26,10 @@ class StockRepository @Inject constructor(
         localDataSource.update(isLiked, symbol)
     }
 
+    suspend fun updateLogo(logo: String, symbol: String) {
+        localDataSource.updateLogo(logo, symbol)
+    }
+
     fun getAllSectionStocks(value: String): Flow<List<StockItem>> {
         return localDataSource.getAllSectionStocks(value)
     }
@@ -52,6 +56,14 @@ class StockRepository @Inject constructor(
     suspend fun getStocks(url: String): DataWrapper<List<StockItem>> {
         return try {
             DataWrapper.Success(remoteDataSource.getStocks(url).quotes)
+        } catch (e: Exception) {
+            DataWrapper.Error(e.message.toString())
+        }
+    }
+
+    fun getLogo(url: String): DataWrapper<String> {
+        return try {
+            DataWrapper.Success(remoteDataSource.getLogo(url)[0].logo)
         } catch (e: Exception) {
             DataWrapper.Error(e.message.toString())
         }

@@ -16,4 +16,5 @@
     <string name="most_actives">Most actives</string>
     <string name="day_gainers">Day gainers</string>
     <string name="day_losers">Day losers</string>
+    <string name="search">Find company or ticker</string>
 </resources>

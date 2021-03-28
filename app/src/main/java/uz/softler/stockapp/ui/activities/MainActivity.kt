@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         findNavController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.searchFragment -> binding.bottomNavView.visibility = View.GONE
+                R.id.itemFragment -> binding.bottomNavView.visibility = View.GONE
 
                 else -> binding.bottomNavView.visibility = View.VISIBLE
             }

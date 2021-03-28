@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,8 +45,8 @@ class PagerItemFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         val networkAvailable = isNetworkAvailable(requireContext())
@@ -80,6 +81,9 @@ class PagerItemFragment : Fragment() {
             }
         }, requireContext())
 
+//        val stocks = ArrayList<StockItem>()
+//        val logos = ArrayList<String>()
+
         val likedStocksList = ArrayList<String>()
         pagerItemViewModel.getAllLikedStocks().observe(viewLifecycleOwner, { myIts ->
             myIts.forEach {
@@ -89,21 +93,36 @@ class PagerItemFragment : Fragment() {
 
         if (networkAvailable) {
             pagerItemViewModel.getStocksRemote(isSent, value)
-                .observe(viewLifecycleOwner, { stocksRemote ->
-                    stocksRemote.forEach {
-                        it.section = value
-                    }
-                    stocksRemote.forEach { out ->
-                        likedStocksList.forEach {
-                            if (out.symbol == it) {
-                                out.isLiked = true
+                    .observe(viewLifecycleOwner, { stocksRemote ->
+
+                        stocksRemote.forEach {
+                            it.section = value
+                        }
+
+                        stocksRemote.forEach { out ->
+                            likedStocksList.forEach {
+                                if (out.symbol == it) {
+                                    out.isLiked = true
+                                }
                             }
                         }
-                    }
 
-                    pagerItemViewModel.insert(stocksRemote)
-                })
+//                        stocksRemote.forEach {
+//                            stocks.add(it)
+//                        }
 
+                        pagerItemViewModel.insert(stocksRemote)
+
+
+//                        stocksRemote.forEach { out ->
+//                            pagerItemViewModel.updateLogo(pagerItemViewModel.getLogo(out.symbol), out.symbol)
+//
+//                            Log.d("LOGOSSS", "onCreateView: ${pagerItemViewModel.getLogo(out.symbol)}")
+//                        }
+                    })
+
+
+//            Toast.makeText(activity, stocks.toString(), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
         }
@@ -116,8 +135,8 @@ class PagerItemFragment : Fragment() {
             }
         })
 
+
         binding.rvPager.adapter = pagerItemAdapter
-//        binding.rvPager.addOnScrollListener(this.scrollListener)
         pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, {
             pagerItemAdapter.submitList(it)
         })
@@ -133,19 +152,19 @@ class PagerItemFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(value: String) =
-            PagerItemFragment().apply {
-                arguments = Bundle().apply {
-                    putString(VALUE, value)
+                PagerItemFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(VALUE, value)
+                    }
                 }
-            }
     }
 
     private fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             if (capabilities != null) {
                 when {
                     capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
@@ -167,52 +186,4 @@ class PagerItemFragment : Fragment() {
         }
         return false
     }
-
-//    var isScrolling = false
-//    var isLoading = false
-//    var isLastPage = false
-//    var QUERY_PAGE_SIZE = 25
-//
-//    val scrollListener = object : RecyclerView.OnScrollListener() {
-//        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//            super.onScrolled(recyclerView, dx, dy)
-//
-//            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-//            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-//            val visibleItemCount = layoutManager.childCount
-//            val totalItemCount = layoutManager.itemCount
-//
-//            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
-//            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
-//            val isNotAtBeginning = firstVisibleItemPosition >= 0
-//            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
-//            val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
-//                    isTotalMoreThanVisible && isScrolling
-//
-//            val networkAvailable = isNetworkAvailable(requireContext())
-//
-//            if (shouldPaginate) {
-//                val list = ArrayList<String>()
-//                pagerItemViewModel.getAllLikedStocks().observe(viewLifecycleOwner, { myIts ->
-//                    myIts.forEach {
-//                        list.add(it.symbol)
-//                    }
-//                })
-//
-//                if (networkAvailable) {
-//                    pagerItemViewModel.getBreakingNews(isSent, value)
-//                    isScrolling = false
-//                } else {
-////                rvBreakingNews.setPadding(0, 0, 0, 0)
-//                }
-//            }
-//        }
-//
-//        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//            super.onScrollStateChanged(recyclerView, newState)
-//            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-//                isScrolling = true
-//            }
-//        }
-//    }
 }

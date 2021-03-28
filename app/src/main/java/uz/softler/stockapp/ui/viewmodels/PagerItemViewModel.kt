@@ -16,8 +16,13 @@ class PagerItemViewModel @ViewModelInject constructor(
 
 //    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
+    var logo = ""
+
     private var _stocksLiveData = MutableLiveData<List<StockItem>>()
     private val stocksLiveData: LiveData<List<StockItem>> = _stocksLiveData
+
+    private var _logoLiveData = MutableLiveData<String>()
+    private val logoLiveData: LiveData<String> = _logoLiveData
 
     private var _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -40,6 +45,14 @@ class PagerItemViewModel @ViewModelInject constructor(
         }
     }
 
+    fun updateLogo(logo: String, symbol: String) {
+        viewModelScope.launch {
+            repository.updateLogo(logo, symbol)
+        }
+    }
+
+
+
     fun getStocksFromDb(value: String): LiveData<List<StockItem>> {
         _isLoading.postValue(false)
         return repository.getAllSectionStocks(value).asLiveData()
@@ -47,6 +60,21 @@ class PagerItemViewModel @ViewModelInject constructor(
 
     fun getAllLikedStocks(): LiveData<List<StockItem>> {
         return repository.getAllLikedStocks().asLiveData()
+    }
+
+    fun getLogo(symbol: String): String {
+            repository.getLogo("https://autocomplete.clearbit.com/v1/companies/suggest?query=:$symbol").also {
+                    when (it) {
+                        is DataWrapper.Success -> {
+                            logo = it.data
+                            Log.d("THISAPP", "success: ${it.data}")
+                        }
+                        is DataWrapper.Error -> {
+                            Log.d("THISAPP", "error: ${it.errorMessage}")
+                        }
+                    }
+                }
+        return logo
     }
 
     fun getStocksRemote(isSend: Boolean, value: String): LiveData<List<StockItem>> {
