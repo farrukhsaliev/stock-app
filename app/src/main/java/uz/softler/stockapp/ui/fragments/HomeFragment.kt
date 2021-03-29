@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
 
             if (position == 0) {
                 bind.title.setTextColor(Color.parseColor("#000000"))
-                bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22F)
+                bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24F)
             } else {
                 bind.title.setTextColor(Color.parseColor("#BABABA"))
                 bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
                 val customView = tab?.customView
                 val bind = TabItemBinding.bind(customView!!)
                 bind.title.setTextColor(Color.parseColor("#000000"))
-                bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22F)
+                bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24F)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

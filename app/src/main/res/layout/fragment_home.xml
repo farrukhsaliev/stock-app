@@ -11,8 +11,10 @@
         android:layout_height="wrap_content"
         android:background="#fff"
         android:fitsSystemWindows="true"
-        android:outlineAmbientShadowColor="@color/white"
+
         android:outlineSpotShadowColor="@color/white">
+
+        <!--        android:outlineAmbientShadowColor="@color/white"-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/search"
@@ -45,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="@string/find_company_or_ticker"
+                android:text="@string/search"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -57,8 +59,10 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayout"
             android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_gravity="start"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
             android:background="@android:color/transparent"
             android:foregroundGravity="left"
             app:layout_scrollFlags="noScroll"

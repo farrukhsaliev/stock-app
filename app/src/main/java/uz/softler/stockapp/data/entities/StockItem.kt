@@ -82,10 +82,10 @@ data class StockItem(
         val twoHundredDayAverageChangePercent: Double,
         var logo: String? = "",
         @PrimaryKey
-    val symbol: String,
+        val symbol: String,
         var isLiked: Boolean = false,
         var section: String = ""
-): Serializable {
+) : Serializable {
     @SerializedName("id")
     var id: Int? = null
 }

@@ -57,9 +57,4 @@
         android:name="uz.softler.stockapp.ui.fragments.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
-    <fragment
-        android:id="@+id/recentlyFragment"
-        android:name="uz.softler.stockapp.ui.fragments.RecentlyFragment"
-        android:label="fragment_recently"
-        tools:layout="@layout/fragment_recently" />
 </navigation>

@@ -50,7 +50,17 @@ class FavouritesFragment : Fragment() {
 
         favouritesViewModel.getAllLikedStocks().observe(viewLifecycleOwner, {
             pagerItemAdapter.submitList(it)
+
+            if (it.isNotEmpty()) {
+                binding.box.visibility = View.GONE
+                binding.boxTitle.visibility = View.GONE
+            } else {
+                binding.box.visibility = View.VISIBLE
+                binding.boxTitle.visibility = View.VISIBLE
+            }
         })
+
+
 
         return view
     }

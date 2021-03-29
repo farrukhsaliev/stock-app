@@ -1,40 +1,115 @@
 package uz.softler.stockapp.ui.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
+import uz.softler.stockapp.data.entities.Language
+import uz.softler.stockapp.data.entities.ProfileSummary
 import uz.softler.stockapp.data.entities.StockItem
+import uz.softler.stockapp.databinding.DialogAboutBinding
+import uz.softler.stockapp.databinding.DialogLangBinding
+import uz.softler.stockapp.databinding.FragmentItemSummaryBinding
+import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
+import uz.softler.stockapp.utils.MyPreferences
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ItemSummaryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class ItemSummaryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var stockItem: StockItem? = null
+    private var profileSummary: ProfileSummary? = null
+    private lateinit var pagerItemViewModel: PagerItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            stockItem = it.getSerializable(ARG_PARAM1) as StockItem
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_summary, container, false)
+        val view = inflater.inflate(R.layout.fragment_item_summary, container, false)
+        val binding = FragmentItemSummaryBinding.bind(view)
+        var about = ""
+
+
+        val networkAvailable = MyPreferences(requireContext()).isNetworkAvailable()
+
+        pagerItemViewModel = ViewModelProvider(this).get(PagerItemViewModel::class.java)
+
+        if (networkAvailable) {
+            pagerItemViewModel.getProfile(stockItem?.symbol!!).observe(viewLifecycleOwner, { profile ->
+
+                about = profile.longBusinessSummary
+
+                binding.also {
+
+                    binding.also {
+                        it.country.text = profile.country
+                        it.phone.text = profile.phone
+                        it.site.text = profile.website.substring(profile.website.lastIndexOf('/')+1)
+                        it.employee.text = profile.fullTimeEmployees.toString()
+                    }
+
+                    pagerItemViewModel.insertProfileSummary(ProfileSummary(
+                            stockItem!!.symbol,
+                            profile.country,
+                            profile.phone,
+                            profile.website.substring(profile.website.lastIndexOf('/')+1),
+                            profile.fullTimeEmployees.toString(),
+                            profile.longBusinessSummary
+                    ))
+                }
+            })
+        } else {
+            Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
+
+            pagerItemViewModel.getProfileLocal(stockItem!!.symbol).observe(viewLifecycleOwner, { profile ->
+
+                if (profile != null) {
+                    about = profile.longBusinessSummary
+
+                    binding.also {
+
+                        it.country.text = profile.country
+                        it.phone.text = profile.phone
+                        it.site.text = profile.website
+                        it.employee.text = profile.fullTimeEmployees
+                    }
+                }
+            })
+        }
+
+        binding.aboutSection.setOnClickListener {
+            val dialogView = View.inflate(context, R.layout.dialog_about, null)
+            val dialogAboutBinding = DialogAboutBinding.bind(dialogView)
+            val builder = AlertDialog.Builder(context)
+            builder.setView(dialogView)
+
+            val dialog = builder.create()
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            if (about.isEmpty()) {
+                dialogAboutBinding.textView3.text = "Network error"
+            } else {
+                dialogAboutBinding.textView3.text = about
+            }
+
+        }
+
+
+        return view
     }
 
     companion object {
@@ -44,15 +119,14 @@ class ItemSummaryFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ItemSummaryFragment.
+         * @return A new instance of fragment ItemChartFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: StockItem) =
                 ItemSummaryFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        putSerializable(ARG_PARAM1, param1)
                     }
                 }
     }

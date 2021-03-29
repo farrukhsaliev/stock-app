@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import uz.softler.stockapp.data.entities.*
 import uz.softler.stockapp.data.local.StockDao
 import uz.softler.stockapp.data.remote.JsonPlaceHolder
+import uz.softler.stockapp.data.entities.Result
 import uz.softler.stockapp.utils.DataWrapper
 import javax.inject.Inject
 
@@ -34,6 +35,10 @@ class StockRepository @Inject constructor(
         return localDataSource.getAllSectionStocks(value)
     }
 
+    fun getProfileLocal(symbol: String): Flow<ProfileSummary> {
+        return localDataSource.getProfileLocal(symbol)
+    }
+
     fun getAllLikedStocks(): Flow<List<StockItem>> {
         return localDataSource.getAllLikedStocks()
     }
@@ -61,6 +66,18 @@ class StockRepository @Inject constructor(
         }
     }
 
+    suspend fun insertProfileSummary(profileSummary: ProfileSummary) {
+        localDataSource.insertProfileSummary(profileSummary)
+    }
+
+    suspend fun getProfile(url: String): DataWrapper<CompanyProfile> {
+        return try {
+            DataWrapper.Success(remoteDataSource.getProfile(url))
+        } catch (e: Exception) {
+            DataWrapper.Error(e.message.toString())
+        }
+    }
+
     fun getLogo(url: String): DataWrapper<String> {
         return try {
             DataWrapper.Success(remoteDataSource.getLogo(url)[0].logo)
@@ -68,4 +85,13 @@ class StockRepository @Inject constructor(
             DataWrapper.Error(e.message.toString())
         }
     }
+
+    suspend fun getLookUpStock(symbol: String): DataWrapper<List<Result>> {
+        return try {
+            DataWrapper.Success(remoteDataSource.getLookUpStock(symbol).result)
+        } catch (e: Exception) {
+            DataWrapper.Error(e.message.toString())
+        }
+    }
+
 }

@@ -21,6 +21,21 @@ class SettingsFragment : Fragment() {
 
         val myPreferences = MyPreferences(requireContext())
 
+        when (myPreferences.getLang()) {
+            Language.RU.toString() -> {
+                binding.also {
+                    it.imageLang.setImageResource(R.drawable.flag_ru)
+                    it.titleLang.text = resources.getString(R.string.russian)
+                }
+            }
+            Language.EN.toString() -> {
+                binding.also {
+                    it.imageLang.setImageResource(R.drawable.flag_usa)
+                    it.titleLang.text = resources.getString(R.string.english)
+                }
+            }
+        }
+
         binding.language.setOnClickListener {
             val dialogView = View.inflate(context, R.layout.dialog_lang, null)
             val dialogLangBinding = DialogLangBinding.bind(dialogView)

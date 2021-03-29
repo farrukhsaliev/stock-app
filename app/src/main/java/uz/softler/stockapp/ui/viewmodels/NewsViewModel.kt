@@ -34,7 +34,7 @@ class NewsViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             _isLoading.postValue(true)
             repository.getNewsRemote().also {
-                when(it) {
+                when (it) {
                     is DataWrapper.Success -> {
                         _newsLiveData.postValue(it.data)
                     }

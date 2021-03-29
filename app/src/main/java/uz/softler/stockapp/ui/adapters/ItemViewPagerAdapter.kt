@@ -10,7 +10,7 @@ class ItemViewPagerAdapter(var stockItem: StockItem, fragmentActivity: FragmentA
         FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int {
-        return 3
+        return 2
     }
 
     override fun createFragment(position: Int): Fragment {
@@ -18,11 +18,8 @@ class ItemViewPagerAdapter(var stockItem: StockItem, fragmentActivity: FragmentA
             0 -> {
                 ItemChartFragment.newInstance(stockItem)
             }
-            1 -> {
-                ItemSummaryFragment.newInstance("", "")
-            }
             else -> {
-                ItemNewsFragment.newInstance("", "")
+                ItemSummaryFragment.newInstance(stockItem)
             }
         }
     }

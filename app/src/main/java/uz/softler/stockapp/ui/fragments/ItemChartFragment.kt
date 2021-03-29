@@ -72,23 +72,19 @@ class ItemChartFragment : Fragment() {
 
         val xvalue = ArrayList<String>()
 
-        xvalue.add("Close")
-        xvalue.add("Low")
-        xvalue.add("High")
-        xvalue.add("Now")
+        xvalue.add(resources.getString(R.string.close))
+        xvalue.add(resources.getString(R.string.low))
+        xvalue.add(resources.getString(R.string.high))
+        xvalue.add(resources.getString(R.string.now))
 
         val lineEntry = ArrayList<Entry>()
 
-//        lineEntry.add(Entry(stockItem?.twoHundredDayAverage!!.toFloat(), 0))
-//        lineEntry.add(Entry(stockItem?.postMarketPrice!!.toFloat(), 1))
-//        lineEntry.add(Entry(stockItem?.fiftyTwoWeekLow!!.toFloat(), 2))
-//        lineEntry.add(Entry(stockItem?.fiftyTwoWeekHigh!!.toFloat(), 3))
         lineEntry.add(Entry(stockItem?.regularMarketPreviousClose!!.toFloat(), 0))
         lineEntry.add(Entry(stockItem?.regularMarketDayLow!!.toFloat(), 1))
         lineEntry.add(Entry(stockItem?.regularMarketDayHigh!!.toFloat(), 2))
         lineEntry.add(Entry(stockItem?.regularMarketPrice!!.toFloat(), 3))
 
-        val lineDataSet = LineDataSet(lineEntry, "24 hours")
+        val lineDataSet = LineDataSet(lineEntry, resources.getString(R.string.time))
         lineDataSet.setDrawCubic(true)
         lineDataSet.cubicIntensity = 0.15f
         lineDataSet.setDrawCircles(true)

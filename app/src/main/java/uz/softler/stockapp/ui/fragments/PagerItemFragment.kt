@@ -20,6 +20,7 @@ import uz.softler.stockapp.data.repository.StockRepository
 import uz.softler.stockapp.databinding.FragmentPagerItemBinding
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
 import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
+import uz.softler.stockapp.utils.MyPreferences
 import uz.softler.stockapp.utils.Strings
 import java.io.Serializable
 import javax.inject.Inject
@@ -49,7 +50,7 @@ class PagerItemFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val networkAvailable = isNetworkAvailable(requireContext())
+        val networkAvailable = MyPreferences(requireContext()).isNetworkAvailable()
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getString("isSent") == "Sent") {
@@ -125,6 +126,7 @@ class PagerItemFragment : Fragment() {
 //            Toast.makeText(activity, stocks.toString(), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
+
         }
 
         pagerItemViewModel.isLoading.observe(viewLifecycleOwner, {
@@ -135,11 +137,22 @@ class PagerItemFragment : Fragment() {
             }
         })
 
-
-        binding.rvPager.adapter = pagerItemAdapter
         pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, {
             pagerItemAdapter.submitList(it)
+
+            if (it.isNotEmpty()) {
+                binding.wifi.visibility = View.GONE
+                binding.wifiTitle.visibility = View.GONE
+            } else {
+                binding.wifi.visibility = View.VISIBLE
+                binding.wifiTitle.visibility = View.VISIBLE
+            }
         })
+
+
+
+        binding.rvPager.adapter = pagerItemAdapter
+
 
         return view
     }
@@ -157,33 +170,5 @@ class PagerItemFragment : Fragment() {
                         putString(VALUE, value)
                     }
                 }
-    }
-
-    private fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager =
-                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val capabilities =
-                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                when {
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                        return true
-                    }
-                }
-            }
-        } else {
-            val activeNetworkInfo = connectivityManager.activeNetworkInfo
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
-                return true
-            }
-        }
-        return false
     }
 }

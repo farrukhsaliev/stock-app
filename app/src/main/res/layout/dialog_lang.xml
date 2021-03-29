@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/item_shape"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="12dp" >
+    android:padding="12dp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/text"
@@ -19,6 +19,7 @@
         android:textAlignment="inherit"
         android:textColor="@color/black"
         android:textSize="18sp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,13 +29,14 @@
         android:id="@+id/rus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@drawable/item_shape_dialog_lang"
         android:orientation="horizontal"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        app:layout_constraintWidth_percent="0.8"
         tools:ignore="MissingConstraints">
 
         <ImageView
@@ -66,14 +68,14 @@
         android:id="@+id/eng"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/item_shape_dialog_lang"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rus"
-        app:layout_constraintWidth_percent="0.7">
+        app:layout_constraintWidth_percent="0.8">
 
         <ImageView
             android:layout_width="40dp"

@@ -13,11 +13,14 @@ interface JsonPlaceHolder {
     @GET
     suspend fun getStocks(@Url url: String): StocksResponse
 
+    @GET
+    suspend fun getProfile(@Url url: String): CompanyProfile
+
     @GET("news?category=general&token=${Strings.FINNHUB_TOKEN}")
     suspend fun getNews(): List<News>
 
-    @GET("search?q={symbol}&token=${Strings.FINNHUB_TOKEN}")
-    suspend fun getLookUpStock(@Path("symbol") symbol: String): List<LookUpStock>
+    @GET("search?&token=${Strings.FINNHUB_TOKEN}")
+    suspend fun getLookUpStock(@Query("q") symbol: String): LookUpStock
 
     @GET
     fun getLogo(@Url url: String): Logos

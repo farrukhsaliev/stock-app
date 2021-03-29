@@ -3,6 +3,7 @@ package uz.softler.stockapp.data.local
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import uz.softler.stockapp.data.entities.ProfileSummary
 import uz.softler.stockapp.data.entities.StockItem
 
 @Dao
@@ -25,4 +26,10 @@ interface StockDao {
 
     @Query("SELECT * FROM stocks_table WHERE isLiked = 1")
     fun getAllLikedStocks(): Flow<List<StockItem>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProfileSummary(profileSummary: ProfileSummary)
+
+    @Query("SELECT * FROM profiles_table WHERE symbol = :symbol")
+    fun getProfileLocal(symbol: String): Flow<ProfileSummary>
 }
