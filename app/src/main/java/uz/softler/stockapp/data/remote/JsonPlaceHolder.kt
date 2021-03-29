@@ -22,9 +22,4 @@ interface JsonPlaceHolder {
     @GET("search?&token=${Strings.FINNHUB_TOKEN}")
     suspend fun getLookUpStock(@Query("q") symbol: String): LookUpStock
 
-    @GET
-    fun getLogo(@Url url: String): Logos
-
-//    @GET
-//    suspend fun getPagingStocks(@Url url: String): StocksResponse
 }

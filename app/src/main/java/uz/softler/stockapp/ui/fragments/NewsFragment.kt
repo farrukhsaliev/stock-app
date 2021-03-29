@@ -66,7 +66,7 @@ class NewsFragment : Fragment() {
         newsViewModel.getNewsLocal().observe(viewLifecycleOwner, {
             newsAdapter.submitList(it)
 
-            if (it.isNotEmpty()) {
+            if (it.isNotEmpty() || networkAvailable) {
                 binding.wifi.visibility = View.GONE
                 binding.wifiTitle.visibility = View.GONE
             } else {

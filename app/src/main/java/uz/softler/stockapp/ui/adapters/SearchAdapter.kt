@@ -5,6 +5,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +15,12 @@ import uz.softler.stockapp.data.entities.Result
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.SearchItemListBinding
 
-class SearchAdapter(var onClickItem: SearchAdapter.Clickable, var context: Context) : ListAdapter<Result, SearchAdapter.MyViewHolder>(SearchAdapter.MyDiffUtil()) {
+class SearchAdapter(var context: Context) : ListAdapter<Result, SearchAdapter.MyViewHolder>(SearchAdapter.MyDiffUtil()) {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = SearchItemListBinding.bind(itemView)
 
-        fun onBind(item: Result, position: Int, oldPosition: Int) {
+        fun onBind(item: Result) {
             binding.ticker.text = item.symbol
             binding.company.text = item.description
         }
@@ -36,7 +38,9 @@ class SearchAdapter(var onClickItem: SearchAdapter.Clickable, var context: Conte
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.onBind(getItem(position), position, holder.oldPosition)
+        holder.onBind(getItem(position))
+
+        setAnimation(holder.itemView)
     }
 
     class MyDiffUtil : DiffUtil.ItemCallback<Result>() {
@@ -54,7 +58,9 @@ class SearchAdapter(var onClickItem: SearchAdapter.Clickable, var context: Conte
         }
     }
 
-    interface Clickable {
-        fun onClickItem(result: Result)
+    private fun setAnimation(viewToAnimate: View) {
+        val animation: Animation =
+                AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down)
+        viewToAnimate.startAnimation(animation)
     }
 }

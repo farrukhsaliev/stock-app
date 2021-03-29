@@ -49,11 +49,6 @@ object AppModule {
     fun jsonPlaceHolder(retrofit: Retrofit): JsonPlaceHolder =
             retrofit.create(JsonPlaceHolder::class.java)
 
-//    @Singleton
-//    @Provides
-//    fun provideDatabase(@ApplicationContext appContext: Context) =
-//        AppDatabase.getDatabase(appContext)
-
     @Singleton
     @Provides
     fun provideDatabase(

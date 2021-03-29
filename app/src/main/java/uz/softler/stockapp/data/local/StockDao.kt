@@ -12,9 +12,6 @@ interface StockDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(stocks: List<StockItem>)
 
-//    @Query("DELETE FROM stocks_table WHERE symbol=:stockSymbol")
-//    suspend fun remove(stockSymbol: String)
-
     @Query("UPDATE stocks_table SET isLiked = :isLiked WHERE symbol = :symbol")
     suspend fun update(isLiked: Boolean, symbol: String)
 

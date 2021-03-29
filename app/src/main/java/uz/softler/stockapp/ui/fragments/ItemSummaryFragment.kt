@@ -40,7 +40,7 @@ class ItemSummaryFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_item_summary, container, false)
         val binding = FragmentItemSummaryBinding.bind(view)
-        var about = ""
+        var about: String? = null
 
 
         val networkAvailable = MyPreferences(requireContext()).isNetworkAvailable()
@@ -77,7 +77,7 @@ class ItemSummaryFragment : Fragment() {
             pagerItemViewModel.getProfileLocal(stockItem!!.symbol).observe(viewLifecycleOwner, { profile ->
 
                 if (profile != null) {
-                    about = profile.longBusinessSummary
+                    about = profile.longBusinessSummary.toString()
 
                     binding.also {
 
@@ -100,7 +100,7 @@ class ItemSummaryFragment : Fragment() {
             dialog.show()
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-            if (about.isEmpty()) {
+            if (about?.isEmpty() == true) {
                 dialogAboutBinding.textView3.text = "Network error"
             } else {
                 dialogAboutBinding.textView3.text = about

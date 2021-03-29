@@ -82,9 +82,6 @@ class PagerItemFragment : Fragment() {
             }
         }, requireContext())
 
-//        val stocks = ArrayList<StockItem>()
-//        val logos = ArrayList<String>()
-
         val likedStocksList = ArrayList<String>()
         pagerItemViewModel.getAllLikedStocks().observe(viewLifecycleOwner, { myIts ->
             myIts.forEach {
@@ -108,22 +105,8 @@ class PagerItemFragment : Fragment() {
                             }
                         }
 
-//                        stocksRemote.forEach {
-//                            stocks.add(it)
-//                        }
-
                         pagerItemViewModel.insert(stocksRemote)
-
-
-//                        stocksRemote.forEach { out ->
-//                            pagerItemViewModel.updateLogo(pagerItemViewModel.getLogo(out.symbol), out.symbol)
-//
-//                            Log.d("LOGOSSS", "onCreateView: ${pagerItemViewModel.getLogo(out.symbol)}")
-//                        }
                     })
-
-
-//            Toast.makeText(activity, stocks.toString(), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
 
@@ -140,7 +123,7 @@ class PagerItemFragment : Fragment() {
         pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, {
             pagerItemAdapter.submitList(it)
 
-            if (it.isNotEmpty()) {
+            if (it.isNotEmpty() || networkAvailable) {
                 binding.wifi.visibility = View.GONE
                 binding.wifiTitle.visibility = View.GONE
             } else {
@@ -149,10 +132,7 @@ class PagerItemFragment : Fragment() {
             }
         })
 
-
-
         binding.rvPager.adapter = pagerItemAdapter
-
 
         return view
     }

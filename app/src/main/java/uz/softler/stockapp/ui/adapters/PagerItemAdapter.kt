@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -31,10 +33,10 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                     it.change.setTextColor(Color.parseColor("#24B25D"))
                 }
 
-                if (stock.regularMarketChange.toString().length > 4) {
-                    it.change.text = "${stock.regularMarketChange.toString().substring(0, stock.regularMarketChange.toString().indexOf('.')+3)} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf( '.')+2)}%)"
+                if (stock.regularMarketChange.toString().length > 5) {
+                    it.change.text = "${stock.regularMarketChange.toString().substring(0, stock.regularMarketChange.toString().indexOf('.') + 3)} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf('.') + 2)}%)"
                 } else {
-                    it.change.text = "${stock.regularMarketChange.toString()} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf( '.')+2)}%)"
+                    it.change.text = "${stock.regularMarketChange.toString()} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf('.') + 2)}%)"
                 }
 
                 Glide
@@ -44,7 +46,6 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                         .centerCrop()
                         .placeholder(R.drawable.placeholder)
                         .into(it.logo)
-
 
                 if (!stock.isLiked) {
                     it.star.setImageResource(R.drawable.ic_unliked)
@@ -59,7 +60,6 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                 }
 
                 binding.star.setOnClickListener {
-//                    onClickItem.onClickStar(stock)
                     onClickItem.onClickStar(stock, position, oldPosition)
                 }
 
@@ -82,6 +82,8 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.onBind(getItem(position), position, holder.oldPosition)
+
+        setAnimation(holder.itemView)
     }
 
     class MyDiffUtil : DiffUtil.ItemCallback<StockItem>() {
@@ -102,5 +104,11 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
     interface Clickable {
         fun onClickItem(stock: StockItem)
         fun onClickStar(stock: StockItem, position: Int, count: Int)
+    }
+
+    private fun setAnimation(viewToAnimate: View) {
+        val animation: Animation =
+                AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down)
+        viewToAnimate.startAnimation(animation)
     }
 }

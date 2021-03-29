@@ -1,6 +1,5 @@
 package uz.softler.stockapp.ui.viewmodels
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +38,7 @@ class NewsViewModel @ViewModelInject constructor(
                         _newsLiveData.postValue(it.data)
                     }
                     is DataWrapper.Error -> {
-                        Log.d("Error", "Error: ${it.errorMessage}")
+
                     }
                 }
             }

@@ -10,23 +10,6 @@ class FavouritesViewModel @ViewModelInject constructor(
         private val repository: StockRepository
 ) : ViewModel() {
 
-//    private val coroutineScope = CoroutineScope(Dispatchers.IO)
-
-    private var _stocksLiveData = MutableLiveData<List<StockItem>>()
-    val stocksLiveData: LiveData<List<StockItem>> = _stocksLiveData
-
-//    fun insert(stocks: List<StockItem>) {
-//        viewModelScope.launch {
-//            repository.insert(stocks)
-//        }
-//    }
-
-//    fun remove(stockSymbol: String) {
-//         viewModelScope.launch {
-//            repository.remove(stockSymbol)
-//        }
-//    }
-
     fun getAllLikedStocks(): LiveData<List<StockItem>> {
         return repository.getAllLikedStocks().asLiveData()
     }
@@ -36,10 +19,4 @@ class FavouritesViewModel @ViewModelInject constructor(
             repository.update(isLiked, symbol)
         }
     }
-
-//    init {
-//        viewModelScope.launch {
-//            _stocksLiveData.postValue(repository.getAllLikedStocks().value)
-//        }
-//    }
 }

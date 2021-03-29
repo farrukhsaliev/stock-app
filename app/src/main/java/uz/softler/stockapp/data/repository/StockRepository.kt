@@ -19,10 +19,6 @@ class StockRepository @Inject constructor(
         localDataSource.insert(stocks)
     }
 
-//    suspend fun remove(stockSymbol: String) {
-//        localDataSource.remove(stockSymbol)
-//    }
-
     suspend fun update(isLiked: Boolean, symbol: String) {
         localDataSource.update(isLiked, symbol)
     }
@@ -43,21 +39,8 @@ class StockRepository @Inject constructor(
         return localDataSource.getAllLikedStocks()
     }
 
-//    suspend fun getPagingStocks(url: String) =
-//        remoteDataSource.getPagingStocks(url)
-
-//    fun getStocksList(url: String): LiveData<PagingData<StockItem>> {
-//        return Pager(
-//            PagingConfig(
-//                pageSize = 20,
-//                maxSize = 100,
-//                enablePlaceholders = false
-//            ),
-//            pagingSourceFactory = { StockPagingSource(remoteDataSource, url) }
-//        ).liveData
-//    }
-
     // JsonPlaceHolder
+
     suspend fun getStocks(url: String): DataWrapper<List<StockItem>> {
         return try {
             DataWrapper.Success(remoteDataSource.getStocks(url).quotes)
@@ -73,14 +56,6 @@ class StockRepository @Inject constructor(
     suspend fun getProfile(url: String): DataWrapper<CompanyProfile> {
         return try {
             DataWrapper.Success(remoteDataSource.getProfile(url))
-        } catch (e: Exception) {
-            DataWrapper.Error(e.message.toString())
-        }
-    }
-
-    fun getLogo(url: String): DataWrapper<String> {
-        return try {
-            DataWrapper.Success(remoteDataSource.getLogo(url)[0].logo)
         } catch (e: Exception) {
             DataWrapper.Error(e.message.toString())
         }

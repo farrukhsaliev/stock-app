@@ -36,19 +36,14 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
             it.isFocusable = false
             it.isIconified = false
             it.requestFocus()
+            it.requestFocusFromTouch()
             it.queryHint = resources.getString(R.string.search)
             it.onActionViewExpanded()
         }
 
-        searchAdapter = SearchAdapter(object : SearchAdapter.Clickable {
-            override fun onClickItem(result: Result) {
-                TODO("Not yet implemented")
-            }
-
-        }, requireContext())
+        searchAdapter = SearchAdapter(requireContext())
 
         binding.rvPager.adapter = searchAdapter
-
 
         return view
     }

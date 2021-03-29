@@ -8,11 +8,11 @@ import com.google.gson.annotations.SerializedName
 data class ProfileSummary(
         @PrimaryKey
         val symbol: String,
-        val country: String? = "",
-        val phone: String = "",
-        val website: String = "",
-        val fullTimeEmployees: String = "",
-        val longBusinessSummary: String = ""
+        val country: String?,
+        val phone: String?,
+        val website: String?,
+        val fullTimeEmployees: String?,
+        val longBusinessSummary: String?
 ) {
     @SerializedName("id")
     var id: Int? = null
