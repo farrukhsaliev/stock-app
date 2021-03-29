@@ -1,75 +1,153 @@
 package uz.softler.stockapp.ui.fragments
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
+import uz.softler.stockapp.data.entities.StockItem
+import uz.softler.stockapp.data.repository.StockRepository
 import uz.softler.stockapp.databinding.FragmentPagerItemBinding
-import uz.softler.stockapp.db.models.Stock
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
+import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
+import uz.softler.stockapp.utils.MyPreferences
+import uz.softler.stockapp.utils.Strings
 import java.io.Serializable
+import javax.inject.Inject
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val VALUE = "value1"
 
+@AndroidEntryPoint
 class PagerItemFragment : Fragment() {
 
-    private var title: String? = null
-    private var stocks: List<Stock>? = null
+    private var value = ""
+    private lateinit var pagerItemViewModel: PagerItemViewModel
+    private lateinit var pagerItemAdapter: PagerItemAdapter
+    var isSent: Boolean = false
+
+    @Inject
+    lateinit var repository: StockRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            title = it.getString(ARG_PARAM1)
-            stocks = it.getSerializable(ARG_PARAM2) as List<Stock>
+            value = it.getString(VALUE).toString()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+
+        val networkAvailable = MyPreferences(requireContext()).isNetworkAvailable()
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString("isSent") == "Sent") {
+                isSent = true
+            }
+        }
+
         val view = inflater.inflate(R.layout.fragment_pager_item, container, false)
         val binding = FragmentPagerItemBinding.bind(view)
 
-        val pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
-            override fun onClickItem(stock: Stock) {
-                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
-//                val postFragment = PostFragment()
-//                val args = Bundle()
-//                args.putSerializable("Post", post as Serializable)
-//                postFragment.arguments = args
-//
-//                findNavController().navigate(R.id.action_itemFragment_to_postFragment, args)
+        pagerItemViewModel = ViewModelProvider(this).get(PagerItemViewModel::class.java)
+
+        pagerItemAdapter = PagerItemAdapter(object : PagerItemAdapter.Clickable {
+            override fun onClickItem(stock: StockItem) {
+                val itemFragment = ItemFragment()
+                val args = Bundle()
+                args.putSerializable(Strings.ITEM_KEY, stock as Serializable)
+                itemFragment.arguments = args
+                findNavController().navigate(R.id.action_homeFragment_to_itemFragment, args)
             }
 
-            override fun onClickStar(stock: Stock) {
-//                if (post.isLiked) {
-//                    mainViewModel.updateIsLiked(false, post.titleUnique)
-//                } else {
-//                    mainViewModel.updateIsLiked(true, post.titleUnique)
-//                }
-                Toast.makeText(activity, "Clicked!", Toast.LENGTH_SHORT).show()
+            override fun onClickStar(stock: StockItem, position: Int, count: Int) {
+                if (!stock.isLiked) {
+                    pagerItemViewModel.update(true, stock.symbol)
+
+                } else {
+                    pagerItemViewModel.update(false, stock.symbol)
+                }
             }
         }, requireContext())
 
-        pagerItemAdapter.setData(stocks as List<Stock>)
+        val likedStocksList = ArrayList<String>()
+        pagerItemViewModel.getAllLikedStocks().observe(viewLifecycleOwner, { myIts ->
+            myIts.forEach {
+                likedStocksList.add(it.symbol)
+            }
+        })
+
+        if (networkAvailable) {
+            pagerItemViewModel.getStocksRemote(isSent, value)
+                    .observe(viewLifecycleOwner, { stocksRemote ->
+
+                        stocksRemote.forEach {
+                            it.section = value
+                        }
+
+                        stocksRemote.forEach { out ->
+                            likedStocksList.forEach {
+                                if (out.symbol == it) {
+                                    out.isLiked = true
+                                }
+                            }
+                        }
+
+                        pagerItemViewModel.insert(stocksRemote)
+                    })
+        } else {
+            Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
+
+        }
+
+        pagerItemViewModel.isLoading.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.INVISIBLE
+            }
+        })
+
+        pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, {
+            pagerItemAdapter.submitList(it)
+
+            if (it.isNotEmpty() || networkAvailable) {
+                binding.wifi.visibility = View.GONE
+                binding.wifiTitle.visibility = View.GONE
+            } else {
+                binding.wifi.visibility = View.VISIBLE
+                binding.wifiTitle.visibility = View.VISIBLE
+            }
+        })
+
         binding.rvPager.adapter = pagerItemAdapter
 
         return view
     }
 
-    companion object {
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("isSent", "Sent")
+        super.onSaveInstanceState(outState)
+    }
 
-        // TODO: Rename and change types and number of parameters
+    companion object {
         @JvmStatic
-        fun newInstance(title: String, list: List<Stock>) =
+        fun newInstance(value: String) =
                 PagerItemFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, title)
-                        putSerializable(ARG_PARAM2, list as Serializable)
+                        putString(VALUE, value)
                     }
                 }
     }

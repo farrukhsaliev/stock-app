@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="12dp"
@@ -12,7 +13,7 @@
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/item_shape"
@@ -23,14 +24,17 @@
 
     <TextView
         android:id="@+id/company"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
         android:fontFamily="@font/montserrat_semibold"
         android:text="Yandex, LLC"
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/change"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@+id/ticker" />
 
@@ -49,14 +53,15 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/star"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toTopOf="@+id/company"
         app:layout_constraintStart_toEndOf="@+id/ticker"
-        app:srcCompat="@drawable/ic_unliked" />
+        app:srcCompat="@drawable/ic_unliked"
+        tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:id="@+id/price"
@@ -105,6 +110,6 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/yndx" />
+            android:src="@drawable/placeholder" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

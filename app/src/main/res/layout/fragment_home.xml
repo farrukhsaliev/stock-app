@@ -11,16 +11,18 @@
         android:layout_height="wrap_content"
         android:background="#fff"
         android:fitsSystemWindows="true"
-        android:outlineAmbientShadowColor="@color/white"
+
         android:outlineSpotShadowColor="@color/white">
 
+        <!--        android:outlineAmbientShadowColor="@color/white"-->
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="6dp"
             android:background="@drawable/shape_search"
             android:fitsSystemWindows="true"
             android:orientation="vertical"
@@ -28,9 +30,9 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:scaleType="centerCrop"
@@ -45,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="Find company or ticker"
+                android:text="@string/search"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -57,27 +59,24 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayout"
             android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
             android:background="@android:color/transparent"
+            android:foregroundGravity="left"
             app:layout_scrollFlags="noScroll"
-            app:tabContentStart="72dp"
             app:tabGravity="start"
             app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
             app:tabRippleColor="@null" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </androidx.core.widget.NestedScrollView>
-
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
