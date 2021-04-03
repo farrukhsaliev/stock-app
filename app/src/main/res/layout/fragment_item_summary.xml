@@ -43,7 +43,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout3"
+        android:id="@+id/phone_click"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="12dp"
@@ -78,14 +78,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout4"
+        android:id="@+id/website_click"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/shape_summary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/phone_click"
         app:layout_constraintWidth_percent="0.85">
 
         <ImageView
@@ -120,7 +120,7 @@
         android:background="@drawable/shape_summary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/website_click"
         app:layout_constraintWidth_percent="0.85">
 
         <ImageView

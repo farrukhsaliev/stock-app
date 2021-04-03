@@ -1,11 +1,6 @@
 package uz.softler.stockapp.ui.fragments
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,14 +11,12 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.StockItem
-import uz.softler.stockapp.data.repository.StockRepository
 import uz.softler.stockapp.databinding.FragmentPagerItemBinding
 import uz.softler.stockapp.ui.adapters.PagerItemAdapter
 import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
 import uz.softler.stockapp.utils.MyPreferences
 import uz.softler.stockapp.utils.Strings
 import java.io.Serializable
-import javax.inject.Inject
 
 private const val VALUE = "value1"
 
@@ -34,9 +27,6 @@ class PagerItemFragment : Fragment() {
     private lateinit var pagerItemViewModel: PagerItemViewModel
     private lateinit var pagerItemAdapter: PagerItemAdapter
     var isSent: Boolean = false
-
-    @Inject
-    lateinit var repository: StockRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

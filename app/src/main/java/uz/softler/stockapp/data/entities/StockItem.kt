@@ -70,7 +70,7 @@ data class StockItem(
         val regularMarketTime: Int,
         val regularMarketVolume: Int,
         val sharesOutstanding: Long,
-        val shortName: String,
+        val shortName: String?,
         val sourceInterval: Int,
         val tradeable: Boolean,
         val trailingAnnualDividendRate: Double,

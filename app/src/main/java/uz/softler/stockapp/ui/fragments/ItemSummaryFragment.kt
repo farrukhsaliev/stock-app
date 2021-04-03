@@ -1,20 +1,20 @@
 package uz.softler.stockapp.ui.fragments
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
-import uz.softler.stockapp.data.entities.Language
 import uz.softler.stockapp.data.entities.ProfileSummary
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.DialogAboutBinding
-import uz.softler.stockapp.databinding.DialogLangBinding
 import uz.softler.stockapp.databinding.FragmentItemSummaryBinding
 import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
 import uz.softler.stockapp.utils.MyPreferences
@@ -57,7 +57,7 @@ class ItemSummaryFragment : Fragment() {
                     binding.also {
                         it.country.text = profile.country
                         it.phone.text = profile.phone
-                        it.site.text = profile.website.substring(profile.website.lastIndexOf('/')+1)
+                        it.site.text = profile.website.substring(profile.website.lastIndexOf('/') + 1)
                         it.employee.text = profile.fullTimeEmployees.toString()
                     }
 
@@ -65,7 +65,7 @@ class ItemSummaryFragment : Fragment() {
                             stockItem!!.symbol,
                             profile.country,
                             profile.phone,
-                            profile.website.substring(profile.website.lastIndexOf('/')+1),
+                            profile.website.substring(profile.website.lastIndexOf('/') + 1),
                             profile.fullTimeEmployees.toString(),
                             profile.longBusinessSummary
                     ))
@@ -105,9 +105,28 @@ class ItemSummaryFragment : Fragment() {
             } else {
                 dialogAboutBinding.textView3.text = about
             }
-
         }
 
+        binding.websiteClick.setOnClickListener {
+//            val i = Intent(Intent.ACTION_VIEW)
+//            i.data = Uri.parse(binding.site.text.toString())
+//            startActivity(i)
+
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_VIEW
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "textMessage.uz")
+            sendIntent.type = "text/plain"
+
+            if (activity?.packageManager?.let { it1 -> sendIntent.resolveActivity(it1) } != null) {
+                startActivity(sendIntent)
+            }
+        }
+
+        binding.phoneClick.setOnClickListener {
+            val callIntent = Intent(Intent.ACTION_DIAL)
+            callIntent.data = Uri.parse("tel: ${binding.phone.text}")
+            startActivity(callIntent)
+        }
 
         return view
     }

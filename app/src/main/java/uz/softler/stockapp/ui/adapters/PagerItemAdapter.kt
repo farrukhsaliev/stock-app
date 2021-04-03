@@ -24,7 +24,12 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
 
         fun onBind(stock: StockItem, position: Int, oldPosition: Int) {
             binding.also {
-                it.company.text = stock.shortName
+                if (stock.shortName != null) {
+                    it.company.text = stock.shortName
+                } else {
+                    it.company.text = stock.displayName
+                }
+
                 it.ticker.text = stock.symbol
                 it.price.text = "$${stock.regularMarketPrice.toString()}"
                 if (stock.regularMarketChange.toString()[0] == '-') {
