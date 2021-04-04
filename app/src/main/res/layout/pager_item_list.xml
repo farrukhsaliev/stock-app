@@ -61,7 +61,8 @@
         app:layout_constraintBottom_toTopOf="@+id/company"
         app:layout_constraintStart_toEndOf="@+id/ticker"
         app:srcCompat="@drawable/ic_unliked"
-        tools:ignore="VectorDrawableCompat" />
+        tools:ignore="VectorDrawableCompat"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/price"
@@ -106,10 +107,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/logo"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder" />
+            android:src="@drawable/placeholder"
+            android:contentDescription="TODO" />
+
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

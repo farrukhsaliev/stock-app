@@ -42,7 +42,6 @@ class ItemSummaryFragment : Fragment() {
         val binding = FragmentItemSummaryBinding.bind(view)
         var about: String? = null
 
-
         val networkAvailable = MyPreferences(requireContext()).isNetworkAvailable()
 
         pagerItemViewModel = ViewModelProvider(this).get(PagerItemViewModel::class.java)
@@ -57,7 +56,8 @@ class ItemSummaryFragment : Fragment() {
                     binding.also {
                         it.country.text = profile.country
                         it.phone.text = profile.phone
-                        it.site.text = profile.website.substring(profile.website.lastIndexOf('/') + 1)
+//                        it.site.text = profile.website.substring(profile.website.lastIndexOf('/') + 1)
+                        it.site.text = profile.website
                         it.employee.text = profile.fullTimeEmployees.toString()
                     }
 
@@ -65,7 +65,8 @@ class ItemSummaryFragment : Fragment() {
                             stockItem!!.symbol,
                             profile.country,
                             profile.phone,
-                            profile.website.substring(profile.website.lastIndexOf('/') + 1),
+//                            profile.website.substring(profile.website.lastIndexOf('/') + 1),
+                            profile.website,
                             profile.fullTimeEmployees.toString(),
                             profile.longBusinessSummary
                     ))
@@ -108,18 +109,18 @@ class ItemSummaryFragment : Fragment() {
         }
 
         binding.websiteClick.setOnClickListener {
-//            val i = Intent(Intent.ACTION_VIEW)
-//            i.data = Uri.parse(binding.site.text.toString())
-//            startActivity(i)
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("${binding.site.text}")
+            startActivity(i)
 
-            val sendIntent = Intent()
-            sendIntent.action = Intent.ACTION_VIEW
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "textMessage.uz")
-            sendIntent.type = "text/plain"
-
-            if (activity?.packageManager?.let { it1 -> sendIntent.resolveActivity(it1) } != null) {
-                startActivity(sendIntent)
-            }
+//            val sendIntent = Intent()
+//            sendIntent.action = Intent.ACTION_VIEW
+//            sendIntent.putExtra(Intent.EXTRA_TEXT, "textMessage.uz")
+//            sendIntent.type = "text/plain"
+//
+//            if (activity?.packageManager?.let { it1 -> sendIntent.resolveActivity(it1) } != null) {
+//                startActivity(sendIntent)
+//            }
         }
 
         binding.phoneClick.setOnClickListener {

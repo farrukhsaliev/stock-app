@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.suke.widget.SwitchButton
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.Language
 import uz.softler.stockapp.databinding.DialogLangBinding
@@ -58,6 +60,16 @@ class SettingsFragment : Fragment() {
                 activity?.recreate()
             }
         }
+
+        binding.switchButton.setOnCheckedChangeListener { view, isChecked ->
+
+            if (isChecked) {
+                Toast.makeText(activity, "On", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(activity, "Off", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         return view
     }
 }

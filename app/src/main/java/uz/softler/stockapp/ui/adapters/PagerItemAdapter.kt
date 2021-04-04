@@ -44,13 +44,13 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                     it.change.text = "${stock.regularMarketChange.toString()} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf('.') + 2)}%)"
                 }
 
-                Glide
-                        .with(itemView.context)
-                        .load(stock.logo)
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .centerCrop()
-                        .placeholder(R.drawable.placeholder)
-                        .into(it.logo)
+//                Glide
+//                        .with(itemView.context)
+//                        .load(stock.logo)
+//                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+//                        .centerCrop()
+//                        .placeholder(R.drawable.placeholder)
+//                        .into(it.logo)
 
                 if (!stock.isLiked) {
                     it.star.setImageResource(R.drawable.ic_unliked)
@@ -93,7 +93,7 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
 
     class MyDiffUtil : DiffUtil.ItemCallback<StockItem>() {
         override fun areItemsTheSame(oldItem: StockItem, newItem: StockItem): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.symbol == newItem.symbol
         }
 
         @SuppressLint("DiffUtilEquals")

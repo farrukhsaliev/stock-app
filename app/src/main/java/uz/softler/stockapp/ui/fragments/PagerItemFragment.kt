@@ -99,7 +99,6 @@ class PagerItemFragment : Fragment() {
                     })
         } else {
             Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
-
         }
 
         pagerItemViewModel.isLoading.observe(viewLifecycleOwner, {
