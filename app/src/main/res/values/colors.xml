@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#24B25D</color>
     <color name="main_color">#F0F4F7</color>
-    <color name="tab_unselected">#666666</color>
+    <color name="tab_unselected">#BABABA</color>
     <color name="status_bar">#8E8E8E</color>
     <color name="red">#B22424</color>
+    <color name="dialog_lang_item">#DBDBDB</color>
+    <color name="company_color">#2D2D2D</color>
 </resources>

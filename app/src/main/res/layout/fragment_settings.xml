@@ -93,7 +93,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/montserrat_regular"
             android:gravity="center"
-            android:text="Night mode"
+            android:text="@string/dark_mode"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
