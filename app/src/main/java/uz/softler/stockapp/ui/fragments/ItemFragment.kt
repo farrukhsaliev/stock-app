@@ -82,10 +82,10 @@ class ItemFragment : Fragment() {
             bind.title.text = titles[position]
 
             if (position == 0) {
-                bind.title.setTextColor(Color.parseColor("#000000"))
+                bind.title.setTextColor(resources.getColor(R.color.black))
                 bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24F)
             } else {
-                bind.title.setTextColor(Color.parseColor("#BABABA"))
+                bind.title.setTextColor(resources.getColor(R.color.tab_unselected))
                 bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
             }
         }.attach()
@@ -94,14 +94,14 @@ class ItemFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val customView = tab?.customView
                 val bind = TabItemBinding.bind(customView!!)
-                bind.title.setTextColor(Color.parseColor("#000000"))
+                bind.title.setTextColor(resources.getColor(R.color.black))
                 bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24F)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 val customView = tab?.customView
                 val bind = TabItemBinding.bind(customView!!)
-                bind.title.setTextColor(Color.parseColor("#BABABA"))
+                bind.title.setTextColor(resources.getColor(R.color.tab_unselected))
                 bind.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
             }
 

@@ -3,32 +3,21 @@ package uz.softler.stockapp.ui.fragments
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import org.w3c.dom.Entity
-import uz.softler.stockapp.R
-import uz.softler.stockapp.data.entities.StockItem
-import com.github.mikephil.charting.data.Entry;
+import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis
+import uz.softler.stockapp.R
+import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.FragmentItemChartBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ItemChartFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ItemChartFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var stockItem: StockItem? = null
     lateinit var binding: FragmentItemChartBinding
 
@@ -51,9 +40,9 @@ class ItemChartFragment : Fragment() {
             it.price.text = "$${stockItem?.regularMarketPrice}"
 
             if (stockItem?.regularMarketChange.toString()[0] == '-') {
-                it.change.setTextColor(Color.parseColor("#B22424"))
+                it.change.setTextColor(resources.getColor(R.color.red))
             } else {
-                it.change.setTextColor(Color.parseColor("#24B25D"))
+                it.change.setTextColor(resources.getColor(R.color.green))
             }
 
             if (stockItem?.regularMarketChange.toString().length > 4) {
@@ -90,7 +79,7 @@ class ItemChartFragment : Fragment() {
         lineDataSet.setDrawCircles(true)
         lineDataSet.lineWidth = 2.5f
         lineDataSet.circleRadius = 5f
-        lineDataSet.setCircleColor(Color.BLACK)
+        lineDataSet.setCircleColor(resources.getColor(R.color.white))
         lineDataSet.highLightColor = Color.YELLOW
         lineDataSet.color = resources.getColor(R.color.black)
         lineDataSet.setDrawFilled(true)

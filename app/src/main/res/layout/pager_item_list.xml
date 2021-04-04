@@ -5,10 +5,11 @@
     android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="12dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginRight="12dp"
-    android:layout_marginBottom="6dp"
+    android:background="@color/white"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:paddingRight="8dp"
+    android:paddingLeft="8dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -16,6 +17,7 @@
         android:id="@+id/background"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="2dp"
         android:background="@drawable/item_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -58,11 +60,11 @@
         android:layout_height="20dp"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="3dp"
+        android:contentDescription="TODO"
         app:layout_constraintBottom_toTopOf="@+id/company"
         app:layout_constraintStart_toEndOf="@+id/ticker"
         app:srcCompat="@drawable/ic_unliked"
-        tools:ignore="VectorDrawableCompat"
-        android:contentDescription="TODO" />
+        tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:id="@+id/price"
@@ -85,7 +87,7 @@
         android:layout_marginEnd="12dp"
         android:fontFamily="@font/montserrat_semibold"
         android:text="+55 ₽ (1,15%)"
-        android:textColor="#24B25D"
+        android:textColor="@color/green"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -109,9 +111,9 @@
         <ImageView
             android:layout_width="52dp"
             android:layout_height="52dp"
+            android:contentDescription="TODO"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder"
-            android:contentDescription="TODO" />
+            android:src="@drawable/placeholder" />
 
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

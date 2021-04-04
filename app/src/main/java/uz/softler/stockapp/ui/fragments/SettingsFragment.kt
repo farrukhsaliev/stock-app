@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.suke.widget.SwitchButton
 import uz.softler.stockapp.R
+import uz.softler.stockapp.data.entities.DarkMode
 import uz.softler.stockapp.data.entities.Language
 import uz.softler.stockapp.databinding.DialogLangBinding
 import uz.softler.stockapp.databinding.FragmentSettingsBinding
@@ -16,12 +18,17 @@ import uz.softler.stockapp.utils.MyPreferences
 
 class SettingsFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val binding = FragmentSettingsBinding.bind(view)
 
         val myPreferences = MyPreferences(requireContext())
+
+        val darkModeStatus = myPreferences.getDarkModeStatus()
+        binding.switchButton.isChecked = darkModeStatus == DarkMode.ON.toString()
 
         when (myPreferences.getLang()) {
             Language.RU.toString() -> {
@@ -64,9 +71,11 @@ class SettingsFragment : Fragment() {
         binding.switchButton.setOnCheckedChangeListener { view, isChecked ->
 
             if (isChecked) {
-                Toast.makeText(activity, "On", Toast.LENGTH_SHORT).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                myPreferences.changeDarkMode(DarkMode.ON.toString())
             } else {
-                Toast.makeText(activity, "Off", Toast.LENGTH_SHORT).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                myPreferences.changeDarkMode(DarkMode.OFF.toString())
             }
         }
 

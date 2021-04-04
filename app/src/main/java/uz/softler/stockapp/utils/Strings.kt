@@ -10,6 +10,7 @@ object Strings {
     const val STOCK_SECTION_4_VALUE  = "day_losers"
     const val STOCK_SECTION_1_VALUE  = "most_actives"
 
-    const val LANGUAGE_KEY = "Selected"
+    const val LANGUAGE_KEY = "&language"
+    const val DARK_MODE_KEY = "&dark&mode"
 
 }

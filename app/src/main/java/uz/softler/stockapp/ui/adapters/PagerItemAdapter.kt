@@ -2,7 +2,6 @@ package uz.softler.stockapp.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.PagerItemListBinding
@@ -33,9 +30,9 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                 it.ticker.text = stock.symbol
                 it.price.text = "$${stock.regularMarketPrice.toString()}"
                 if (stock.regularMarketChange.toString()[0] == '-') {
-                    it.change.setTextColor(Color.parseColor("#B22424"))
+                    it.change.setTextColor(context.resources.getColor(R.color.red))
                 } else {
-                    it.change.setTextColor(Color.parseColor("#24B25D"))
+                    it.change.setTextColor(context.resources.getColor(R.color.green))
                 }
 
                 if (stock.regularMarketChange.toString().length > 5) {

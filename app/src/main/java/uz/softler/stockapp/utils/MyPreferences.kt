@@ -18,7 +18,14 @@ class MyPreferences(val context: Context) {
         editor.apply()
     }
 
+    fun changeDarkMode(key: String) {
+        editor.putString(Strings.DARK_MODE_KEY, key)
+        editor.apply()
+    }
+
     fun getLang() = preferences.getString(Strings.LANGUAGE_KEY, "NOT")
+
+    fun getDarkModeStatus() = preferences.getString(Strings.DARK_MODE_KEY, "NOT")
 
     fun isNetworkAvailable(): Boolean {
         val connectivityManager =

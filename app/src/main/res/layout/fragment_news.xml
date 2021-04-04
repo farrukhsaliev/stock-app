@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.fragments.NewsFragment">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/news"
-        android:textColor="#000"
+        android:textColor="@color/black"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

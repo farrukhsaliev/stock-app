@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.fragments.NewsFragment">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/settings"
-        android:textColor="#000"
+        android:textColor="@color/black"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,13 +104,14 @@
 
         <com.suke.widget.SwitchButton
             android:id="@+id/switch_button"
-            app:sb_show_indicator="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:sb_checked_color="#8D8D8D"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/title_night_mode"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:sb_checked_color="#868686"
+            app:sb_show_indicator="false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
