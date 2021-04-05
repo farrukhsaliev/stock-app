@@ -79,7 +79,7 @@ class ItemChartFragment : Fragment() {
         lineDataSet.setDrawCircles(true)
         lineDataSet.lineWidth = 2.5f
         lineDataSet.circleRadius = 5f
-        lineDataSet.setCircleColor(resources.getColor(R.color.white))
+        lineDataSet.setCircleColor(resources.getColor(R.color.black))
         lineDataSet.highLightColor = Color.YELLOW
         lineDataSet.color = resources.getColor(R.color.black)
         lineDataSet.setDrawFilled(true)

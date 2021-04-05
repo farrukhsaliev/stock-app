@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.PagerItemListBinding
@@ -41,13 +43,13 @@ class PagerItemAdapter(var onClickItem: Clickable, var context: Context) : ListA
                     it.change.text = "${stock.regularMarketChange.toString()} (${stock.regularMarketChangePercent.toString().substring(0, stock.regularMarketChangePercent.toString().indexOf('.') + 2)}%)"
                 }
 
-//                Glide
-//                        .with(itemView.context)
-//                        .load(stock.logo)
-//                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-//                        .centerCrop()
-//                        .placeholder(R.drawable.placeholder)
-//                        .into(it.logo)
+                Glide
+                        .with(itemView.context)
+                        .load("https://finnhub.io/api/logo?symbol=${stock.symbol}")
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .centerCrop()
+                        .placeholder(R.drawable.stock_placeholder)
+                        .into(it.logo)
 
                 if (!stock.isLiked) {
                     it.star.setImageResource(R.drawable.ic_unliked)

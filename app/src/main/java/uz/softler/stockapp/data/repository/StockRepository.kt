@@ -23,7 +23,7 @@ class StockRepository @Inject constructor(
         localDataSource.update(isLiked, symbol)
     }
 
-    suspend fun updateLogo(logo: String, symbol: String) {
+    suspend fun updateLogo(logo: String?, symbol: String) {
         localDataSource.updateLogo(logo, symbol)
     }
 
@@ -68,5 +68,4 @@ class StockRepository @Inject constructor(
             DataWrapper.Error(e.message.toString())
         }
     }
-
 }

@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.SearchFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        app:searchIcon="@drawable/ic_search"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/shape_search"
         android:orientation="horizontal"
         android:textAlignment="center"
-        android:layout_marginLeft="16dp"
-        android:paddingStart="6dp"
-        app:searchHintIcon="@null"
-        app:queryHint="Find company or ticker"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="16dp"
+        app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:queryBackground="@android:color/transparent" />
+        app:queryBackground="@null"
+        app:queryHint="Find company or ticker"
+        app:searchHintIcon="@null"
+        app:searchIcon="@drawable/ic_back" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_pager"
@@ -53,17 +53,17 @@
     <TextView
         android:id="@+id/box_title"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.6"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:textAlignment="center"
         android:fontFamily="@font/montserrat_semibold"
-        android:textSize="18sp"
-        android:textColor="@color/black"
+        android:gravity="center"
         android:text="@string/not_found"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/box" />
+        app:layout_constraintTop_toBottomOf="@+id/box"
+        app:layout_constraintWidth_percent="0.6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

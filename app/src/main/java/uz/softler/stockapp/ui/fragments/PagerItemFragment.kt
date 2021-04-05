@@ -1,11 +1,12 @@
 package uz.softler.stockapp.ui.fragments
 
+import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,12 +22,12 @@ import java.io.Serializable
 private const val VALUE = "value1"
 
 @AndroidEntryPoint
-class PagerItemFragment : Fragment() {
+class PagerItemFragment : androidx.fragment.app.Fragment() {
 
     private var value = ""
     private lateinit var pagerItemViewModel: PagerItemViewModel
     private lateinit var pagerItemAdapter: PagerItemAdapter
-    var isSent: Boolean = false
+    var hasSent: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +37,15 @@ class PagerItemFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         val networkAvailable = MyPreferences(requireContext()).isNetworkAvailable()
 
         if (savedInstanceState != null) {
-            if (savedInstanceState.getString("isSent") == "Sent") {
-                isSent = true
+            if (savedInstanceState.getString("hasSent") == "Sent") {
+                hasSent = true
             }
         }
 
@@ -72,32 +73,32 @@ class PagerItemFragment : Fragment() {
             }
         }, requireContext())
 
-        val likedStocksList = ArrayList<String>()
-        pagerItemViewModel.getAllLikedStocks().observe(viewLifecycleOwner, { myIts ->
-            myIts.forEach {
-                likedStocksList.add(it.symbol)
-            }
-        })
+        if (networkAvailable && !hasSent) {
+            val likedStocksList = ArrayList<String>()
+            pagerItemViewModel.getAllLikedStocks().observe(viewLifecycleOwner, { myIts ->
+                myIts.forEach {
+                    likedStocksList.add(it.symbol)
+                }
+            })
 
-        if (networkAvailable) {
-            pagerItemViewModel.getStocksRemote(isSent, value)
-                    .observe(viewLifecycleOwner, { stocksRemote ->
+            pagerItemViewModel.getStocksRemote(value)
+                .observe(viewLifecycleOwner, { stocksRemote ->
 
-                        stocksRemote.forEach {
-                            it.section = value
-                        }
+                    stocksRemote.forEach {
+                        it.section = value
+                    }
 
-                        stocksRemote.forEach { out ->
-                            likedStocksList.forEach {
-                                if (out.symbol == it) {
-                                    out.isLiked = true
-                                }
+                    stocksRemote.forEach { out ->
+                        likedStocksList.forEach {
+                            if (out.symbol == it) {
+                                out.isLiked = true
                             }
                         }
+                    }
 
-                        pagerItemViewModel.insert(stocksRemote)
-                    })
-        } else {
+                    pagerItemViewModel.insert(stocksRemote)
+                })
+        } else if (!networkAvailable) {
             Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
         }
 
@@ -109,16 +110,17 @@ class PagerItemFragment : Fragment() {
             }
         })
 
-        pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, {
-            pagerItemAdapter.submitList(it)
+        pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, { stocks ->
 
-            if (it.isNotEmpty() || networkAvailable) {
+            if (stocks.isNotEmpty() || networkAvailable) {
                 binding.wifi.visibility = View.GONE
                 binding.wifiTitle.visibility = View.GONE
             } else {
                 binding.wifi.visibility = View.VISIBLE
                 binding.wifiTitle.visibility = View.VISIBLE
             }
+
+            pagerItemAdapter.submitList(stocks)
         })
 
         binding.rvPager.adapter = pagerItemAdapter
@@ -127,17 +129,17 @@ class PagerItemFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString("isSent", "Sent")
+        outState.putString("hasSent", "Sent")
         super.onSaveInstanceState(outState)
     }
 
     companion object {
         @JvmStatic
         fun newInstance(value: String) =
-                PagerItemFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(VALUE, value)
-                    }
+            PagerItemFragment().apply {
+                arguments = Bundle().apply {
+                    putString(VALUE, value)
                 }
+            }
     }
 }

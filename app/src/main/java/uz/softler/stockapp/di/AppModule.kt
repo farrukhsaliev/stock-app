@@ -43,7 +43,7 @@ object AppModule {
             .build()
 
     @Provides
-    fun provideGson(): Gson = GsonBuilder().create()
+    fun provideGson(): Gson = GsonBuilder().setLenient().create()
 
     @Provides
     fun jsonPlaceHolder(retrofit: Retrofit): JsonPlaceHolder =

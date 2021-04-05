@@ -1,17 +1,22 @@
 package uz.softler.stockapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uz.softler.stockapp.R
-import uz.softler.stockapp.data.entities.Result
 import uz.softler.stockapp.databinding.FragmentSearchBinding
 import uz.softler.stockapp.ui.adapters.SearchAdapter
 import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
+import java.util.*
+
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -21,8 +26,8 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
     lateinit var binding: FragmentSearchBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search, container, false)
@@ -33,12 +38,20 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
         binding.search.setOnQueryTextListener(this)
 
         binding.search.also {
-            it.isFocusable = false
-            it.isIconified = false
+            it.isFocusable = true
             it.requestFocus()
-            it.requestFocusFromTouch()
             it.queryHint = resources.getString(R.string.search)
             it.onActionViewExpanded()
+
+            val searchClose: ImageView =
+                it.findViewById(androidx.appcompat.R.id.search_close_btn)
+            val backIcon: ImageView =
+                it.findViewById(androidx.appcompat.R.id.search_mag_icon)
+            searchClose.setImageResource(R.drawable.ic_close)
+            backIcon.setOnClickListener { icon ->
+                it.clearFocus()
+                findNavController().popBackStack()
+            }
         }
 
         searchAdapter = SearchAdapter(requireContext())
