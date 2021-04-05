@@ -60,8 +60,6 @@ class FavouritesFragment : Fragment() {
             }
         })
 
-
-
         return view
     }
 }

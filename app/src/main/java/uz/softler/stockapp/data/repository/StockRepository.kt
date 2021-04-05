@@ -23,10 +23,6 @@ class StockRepository @Inject constructor(
         localDataSource.update(isLiked, symbol)
     }
 
-    suspend fun updateLogo(logo: String?, symbol: String) {
-        localDataSource.updateLogo(logo, symbol)
-    }
-
     fun getAllSectionStocks(value: String): Flow<List<StockItem>> {
         return localDataSource.getAllSectionStocks(value)
     }

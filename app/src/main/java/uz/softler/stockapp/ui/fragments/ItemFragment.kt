@@ -1,14 +1,12 @@
 package uz.softler.stockapp.ui.fragments
 
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
@@ -19,7 +17,6 @@ import uz.softler.stockapp.data.entities.StockItem
 import uz.softler.stockapp.databinding.FragmentItemBinding
 import uz.softler.stockapp.databinding.TabItemBinding
 import uz.softler.stockapp.ui.adapters.ItemViewPagerAdapter
-import uz.softler.stockapp.ui.adapters.ViewPagerAdapter
 import uz.softler.stockapp.ui.viewmodels.PagerItemViewModel
 import uz.softler.stockapp.utils.Strings
 
@@ -27,7 +24,7 @@ import uz.softler.stockapp.utils.Strings
 class ItemFragment : Fragment() {
 
     private lateinit var itemViewModel: PagerItemViewModel
-    val titles = ArrayList<String>()
+    private val titles = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

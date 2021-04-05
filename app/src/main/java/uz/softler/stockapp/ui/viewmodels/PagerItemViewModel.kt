@@ -36,12 +36,6 @@ class PagerItemViewModel @ViewModelInject constructor(
         }
     }
 
-    fun updateLogo(logo: String?, symbol: String) {
-        viewModelScope.launch {
-            repository.updateLogo(logo, symbol)
-        }
-    }
-
     fun getStocksFromDb(value: String): LiveData<List<StockItem>> {
         _isLoading.postValue(false)
         return repository.getAllSectionStocks(value).asLiveData()

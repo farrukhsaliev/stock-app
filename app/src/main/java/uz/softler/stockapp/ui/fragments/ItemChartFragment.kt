@@ -46,9 +46,9 @@ class ItemChartFragment : Fragment() {
             }
 
             if (stockItem?.regularMarketChange.toString().length > 4) {
-                it.change.text = "${stockItem?.regularMarketChange.toString().substring(0, stockItem?.regularMarketChange.toString().indexOf('.')+3)} (${stockItem?.regularMarketChangePercent.toString().substring(0, stockItem?.regularMarketChangePercent.toString().indexOf( '.')+2)}%)"
+                it.change.text = "${stockItem?.regularMarketChange.toString().substring(0, stockItem?.regularMarketChange.toString().indexOf('.') + 3)} (${stockItem?.regularMarketChangePercent.toString().substring(0, stockItem?.regularMarketChangePercent.toString().indexOf('.') + 2)}%)"
             } else {
-                it.change.text = "${stockItem?.regularMarketChange.toString()} (${stockItem?.regularMarketChangePercent.toString().substring(0, stockItem?.regularMarketChangePercent.toString().indexOf( '.')+2)}%)"
+                it.change.text = "${stockItem?.regularMarketChange.toString()} (${stockItem?.regularMarketChangePercent.toString().substring(0, stockItem?.regularMarketChangePercent.toString().indexOf('.') + 2)}%)"
             }
 
 
@@ -93,15 +93,6 @@ class ItemChartFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ItemChartFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: StockItem) =
                 ItemChartFragment().apply {
