@@ -32,4 +32,7 @@
     <string name="now">Now</string>
     <string name="not_found">Not found</string>
     <string name="dark_mode">Night mode</string>
+    <string name="undervalued">Undervalued</string>
+    <string name="agressive">Aggressive</string>
+    <string name="small">Small cap</string>
 </resources>

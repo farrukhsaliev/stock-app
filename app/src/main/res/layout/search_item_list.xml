@@ -68,6 +68,6 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder" />
+            android:src="@drawable/stock_placeholder" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

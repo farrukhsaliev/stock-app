@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import uz.softler.stockapp.R
 import uz.softler.stockapp.data.entities.Result
 import uz.softler.stockapp.data.entities.StockItem
@@ -21,10 +23,19 @@ class SearchAdapter(var context: Context) : ListAdapter<Result, SearchAdapter.My
         private val binding = SearchItemListBinding.bind(itemView)
 
         fun onBind(item: Result) {
-            binding.ticker.text = item.symbol
-            binding.company.text = item.description
-        }
+            binding.also {
+                it.ticker.text = item.symbol
+                it.company.text = item.description
 
+                Glide
+                        .with(itemView.context)
+                        .load("https://finnhub.io/api/logo?symbol=${item.symbol}")
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .centerCrop()
+                        .placeholder(R.drawable.stock_placeholder)
+                        .into(it.logo)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

@@ -12,7 +12,7 @@ data class CompanyProfile(
     val fullTimeEmployees: Int,
     val governanceEpochDate: Int,
     val industry: String,
-    val longBusinessSummary: String,
+    val longBusinessSummary: String?,
     val maxAge: Int,
     val overallRisk: Int,
     val phone: String,

@@ -92,11 +92,17 @@ class HomeFragment : Fragment() {
         values.add(Strings.STOCK_SECTION_2_VALUE)
         values.add(Strings.STOCK_SECTION_3_VALUE)
         values.add(Strings.STOCK_SECTION_4_VALUE)
+        values.add(Strings.STOCK_SECTION_5_VALUE)
+        values.add(Strings.STOCK_SECTION_6_VALUE)
+        values.add(Strings.STOCK_SECTION_7_VALUE)
 
         titles.add(resources.getString(R.string.most_actives))
         titles.add(resources.getString(R.string.technology))
         titles.add(resources.getString(R.string.day_gainers))
         titles.add(resources.getString(R.string.day_losers))
+        titles.add(resources.getString(R.string.undervalued))
+        titles.add(resources.getString(R.string.agressive))
+        titles.add(resources.getString(R.string.small))
     }
 
 }

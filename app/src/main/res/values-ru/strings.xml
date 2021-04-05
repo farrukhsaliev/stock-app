@@ -29,4 +29,7 @@
     <string name="now">Сейчас</string>
     <string name="not_found">Не найден</string>
     <string name="dark_mode">Ночной режим</string>
+    <string name="undervalued">Недооценен</string>
+    <string name="agressive">Агрессивный</string>
+    <string name="small">Малый капитал</string>
 </resources>

@@ -50,9 +50,34 @@ class NewsFragment : Fragment() {
         if (networkAvailable) {
             newsViewModel.newsLiveData.observe(viewLifecycleOwner, {
                 newsViewModel.insert(it)
+
+                newsViewModel.getNewsLocal().observe(viewLifecycleOwner, {news ->
+                    newsAdapter.submitList(news)
+
+                    if (news.isNotEmpty() || networkAvailable) {
+                        binding.wifi.visibility = View.GONE
+                        binding.wifiTitle.visibility = View.GONE
+                    } else {
+                        binding.wifi.visibility = View.VISIBLE
+                        binding.wifiTitle.visibility = View.VISIBLE
+                    }
+                })
             })
+
         } else {
-            Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, resources.getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+
+            newsViewModel.getNewsLocal().observe(viewLifecycleOwner, {news ->
+                newsAdapter.submitList(news)
+
+                if (news.isNotEmpty() || networkAvailable) {
+                    binding.wifi.visibility = View.GONE
+                    binding.wifiTitle.visibility = View.GONE
+                } else {
+                    binding.wifi.visibility = View.VISIBLE
+                    binding.wifiTitle.visibility = View.VISIBLE
+                }
+            })
         }
 
         newsViewModel.isLoading.observe(viewLifecycleOwner, {
@@ -60,18 +85,6 @@ class NewsFragment : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.INVISIBLE
-            }
-        })
-
-        newsViewModel.getNewsLocal().observe(viewLifecycleOwner, {
-            newsAdapter.submitList(it)
-
-            if (it.isNotEmpty() || networkAvailable) {
-                binding.wifi.visibility = View.GONE
-                binding.wifiTitle.visibility = View.GONE
-            } else {
-                binding.wifi.visibility = View.VISIBLE
-                binding.wifiTitle.visibility = View.VISIBLE
             }
         })
 

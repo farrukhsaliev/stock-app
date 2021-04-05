@@ -53,27 +53,23 @@ class ItemSummaryFragment : Fragment() {
 
                 binding.also {
 
-                    binding.also {
-                        it.country.text = profile.country
-                        it.phone.text = profile.phone
-//                        it.site.text = profile.website.substring(profile.website.lastIndexOf('/') + 1)
-                        it.site.text = profile.website
-                        it.employee.text = profile.fullTimeEmployees.toString()
-                    }
+                    it.country.text = profile.country
+                    it.phone.text = profile.phone
+                    it.site.text = profile.website.substring(profile.website.lastIndexOf('/') + 1)
+                    it.employee.text = profile.fullTimeEmployees.toString()
 
                     pagerItemViewModel.insertProfileSummary(ProfileSummary(
                             stockItem!!.symbol,
                             profile.country,
                             profile.phone,
-//                            profile.website.substring(profile.website.lastIndexOf('/') + 1),
-                            profile.website,
+                            profile.website.substring(profile.website.lastIndexOf('/') + 1),
                             profile.fullTimeEmployees.toString(),
                             profile.longBusinessSummary
                     ))
                 }
             })
         } else {
-            Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, resources.getString(R.string.network_error), Toast.LENGTH_SHORT).show()
 
             pagerItemViewModel.getProfileLocal(stockItem!!.symbol).observe(viewLifecycleOwner, { profile ->
 
@@ -102,25 +98,10 @@ class ItemSummaryFragment : Fragment() {
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
             if (about?.isEmpty() == true) {
-                dialogAboutBinding.textView3.text = "Network error"
+                dialogAboutBinding.textView3.text = resources.getString(R.string.network_error)
             } else {
                 dialogAboutBinding.textView3.text = about
             }
-        }
-
-        binding.websiteClick.setOnClickListener {
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse("${binding.site.text}")
-            startActivity(i)
-
-//            val sendIntent = Intent()
-//            sendIntent.action = Intent.ACTION_VIEW
-//            sendIntent.putExtra(Intent.EXTRA_TEXT, "textMessage.uz")
-//            sendIntent.type = "text/plain"
-//
-//            if (activity?.packageManager?.let { it1 -> sendIntent.resolveActivity(it1) } != null) {
-//                startActivity(sendIntent)
-//            }
         }
 
         binding.phoneClick.setOnClickListener {

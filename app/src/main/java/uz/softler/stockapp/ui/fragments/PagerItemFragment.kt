@@ -1,8 +1,6 @@
 package uz.softler.stockapp.ui.fragments
 
-import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,9 +95,33 @@ class PagerItemFragment : androidx.fragment.app.Fragment() {
                     }
 
                     pagerItemViewModel.insert(stocksRemote)
+
+                    pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, { stocks ->
+
+                        if (stocks.isNotEmpty() || networkAvailable) {
+                            binding.wifi.visibility = View.GONE
+                            binding.wifiTitle.visibility = View.GONE
+                        } else {
+                            binding.wifi.visibility = View.VISIBLE
+                            binding.wifiTitle.visibility = View.VISIBLE
+                        }
+
+                        pagerItemAdapter.submitList(stocks)
+                    })
                 })
-        } else if (!networkAvailable) {
-            Toast.makeText(activity, "You are offline!", Toast.LENGTH_SHORT).show()
+        } else if (!networkAvailable || hasSent) {
+            pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, { stocks ->
+
+                if (stocks.isNotEmpty() || networkAvailable) {
+                    binding.wifi.visibility = View.GONE
+                    binding.wifiTitle.visibility = View.GONE
+                } else {
+                    binding.wifi.visibility = View.VISIBLE
+                    binding.wifiTitle.visibility = View.VISIBLE
+                }
+
+                pagerItemAdapter.submitList(stocks)
+            })
         }
 
         pagerItemViewModel.isLoading.observe(viewLifecycleOwner, {
@@ -108,19 +130,6 @@ class PagerItemFragment : androidx.fragment.app.Fragment() {
             } else {
                 binding.progressBar.visibility = View.INVISIBLE
             }
-        })
-
-        pagerItemViewModel.getStocksFromDb(value).observe(viewLifecycleOwner, { stocks ->
-
-            if (stocks.isNotEmpty() || networkAvailable) {
-                binding.wifi.visibility = View.GONE
-                binding.wifiTitle.visibility = View.GONE
-            } else {
-                binding.wifi.visibility = View.VISIBLE
-                binding.wifiTitle.visibility = View.VISIBLE
-            }
-
-            pagerItemAdapter.submitList(stocks)
         })
 
         binding.rvPager.adapter = pagerItemAdapter

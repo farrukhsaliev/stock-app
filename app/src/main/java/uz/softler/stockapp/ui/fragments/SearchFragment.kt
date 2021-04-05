@@ -48,6 +48,7 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
             val backIcon: ImageView =
                 it.findViewById(androidx.appcompat.R.id.search_mag_icon)
             searchClose.setImageResource(R.drawable.ic_close)
+
             backIcon.setOnClickListener { icon ->
                 it.clearFocus()
                 findNavController().popBackStack()
